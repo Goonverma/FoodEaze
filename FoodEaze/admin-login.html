@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #003366 0%, #0066cc 100%);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .admin-auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .admin-auth-card {
+            width: 100%;
+            max-width: 440px;
+            background: #fff;
+            color: #1f2937;
+            border-radius: 16px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+            padding: 32px;
+        }
+
+        .admin-auth-card h1 {
+            color: #003366;
+            margin-bottom: 8px;
+        }
+
+        .admin-auth-card p {
+            color: #6b7280;
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 6px;
+            color: #003366;
+            font-weight: 600;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .btn-full {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .message {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .helper-text {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #6b7280;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-auth-container">
+        <div class="admin-auth-card">
+            <h1>🏥 Admin Access</h1>
+            <p>Secure portal for hospital staff and administrators.</p>
+            <form id="adminLoginForm">
+                <div class="field">
+                    <label for="adminEmail">Email Address</label>
+                    <input type="email" id="adminEmail" required placeholder="admin@foodeaze.com">
+                </div>
+                <div class="field">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="adminLoginBtn">Login to Admin Panel</button>
+            </form>
+            <div class="message" id="adminMessage"></div>
+            <div class="helper-text">Only verified administrators can access this section.</div>
+        </div>
+    </div>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+
+</html>

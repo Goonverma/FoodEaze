@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CCL Hospital Food &amp; Queue - User Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#5b4300",
+                    "inverse-surface": "#2e3132",
+                    "error-container": "#ffdad6",
+                    "secondary": "#5d5f5f",
+                    "tertiary": "#291c00",
+                    "on-background": "#191c1d",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdf9e",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#003366",
+                    "on-primary-container": "#799dd6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f3f4f5",
+                    "on-secondary-fixed-variant": "#454747",
+                    "on-surface": "#191c1d",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "on-primary-fixed": "#001b3c",
+                    "on-primary-fixed-variant": "#1f477b",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-tertiary-container": "#c49400",
+                    "surface-container-high": "#e7e8e9",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "outline": "#737780",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-error": "#ffffff",
+                    "surface-bright": "#f8f9fa",
+                    "tertiary-fixed-dim": "#fabd00",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a7c8ff",
+                    "surface-variant": "#e1e3e4",
+                    "secondary-container": "#dfe0e0",
+                    "outline-variant": "#c3c6d1",
+                    "surface": "#f8f9fa",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#d5e3ff",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "surface-container": "#edeeef",
+                    "primary": "#001e40",
+                    "surface-tint": "#3a5f94",
+                    "tertiary-container": "#433000",
+                    "on-surface-variant": "#43474f",
+                    "background": "#f8f9fa",
+                    "on-secondary-container": "#616363",
+                    "on-tertiary-fixed": "#261a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-lg": "2rem",
+                    "margin-mobile": "1rem",
+                    "stack-sm": "0.5rem",
+                    "gutter": "1.5rem",
+                    "stack-md": "1rem",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "title-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "title-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-stack-md gap-stack-sm bg-primary dark:bg-primary docked h-screen w-64 left-0 z-50">
+<div class="flex items-center gap-stack-sm mb-stack-lg">
+<div class="w-10 h-10 bg-on-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-primary">CCL Hospital</span>
+<span class="text-[10px] text-primary-fixed-dim uppercase tracking-wider">Food &amp; Queue</span>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+                Menu
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+                Orders
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">history</span>
+                History
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-semibold font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+                Profile
+            </a>
+</nav>
+<div class="mt-auto border-t border-on-primary-fixed-variant pt-stack-sm flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">help</span>
+                Help Center
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-gutter h-16 sticky top-0 z-40 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-stack-md">
+<h1 class="font-display-lg text-display-lg text-primary-container">User Profile</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-2 rounded transition-colors">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-2 rounded transition-colors">settings</span>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-outline-variant">
+<div class="text-right">
+<p class="font-title-sm text-title-sm text-primary">Rajesh Kumar</p>
+<p class="text-xs text-on-surface-variant">Patient ID: #CCL-9821</p>
+</div>
+<img class="w-10 h-10 rounded-full border border-primary-container object-cover" data-alt="A professional studio portrait of a middle-aged South Asian man with a friendly expression. He is wearing a formal blue shirt. The lighting is soft and even against a neutral grey background, maintaining a professional and trustworthy clinical aesthetic. The image is crisp, high-resolution, and perfectly centered." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuKuSE_avaozzcxk07ui284M6tUcWmVZZsemAraYut3lGnO335NtAdx6xINFKjfwGSPInRufgW2lXachKrC37ym5jNxGKoF4Dhh50GoawCQzE0C2RQDdJjP3ZRRiEl13tnce2EqlDBhWt6zcrNtYw51ULjK-bnFcTq_ebGjbvrTk75uuly5qetFVjtNV7jJCEmzbkAg3jQZZcUDGGjYAZM-9N2B3aiGHGIbep5EZs7TJ_CZ1qWp3ZJbl6OAuwvugbx-uEFZvJvbuU"/>
+</div>
+</div>
+</header>
+<!-- Profile Canvas -->
+<div class="p-gutter max-w-container-max mx-auto w-full space-y-stack-lg">
+<!-- Bento Layout Profile Header -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Main Info Card -->
+<div class="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-lg p-stack-lg shadow-sm">
+<div class="flex flex-col md:flex-row gap-stack-lg">
+<div class="relative group">
+<img class="w-32 h-32 md:w-40 md:h-40 rounded-lg object-cover border-2 border-primary-container" data-alt="A detailed close-up of a patient identification card photo. A middle-aged man with short dark hair and a warm smile, wearing a patient gown in a soft blue color. The background is a clean, minimalist hospital setting with clinical white walls and soft diffused daylight. High-end portrait photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0IAg9H8shFj08dqqlRU362SiTjJbW34bCEIDgdtot00ZM0DKzigJJgboHvvApZ4lmJtzJCpgVWa6fS7IUuG8X3jasHydeep_7bsCx7XM0qt_6OzTszmolwC94pP4THaeRRI7rSF-3BhaRYivwDFoQvrEysBMPPXUGtR3nPvUJtpIpEupBojNa2F3bHujlI9EvSm8GvShhErj7NnLAnRihSsPaVSXs82MlJuqFGOTZRkkjSAIJuVpmlcVDCjmTJmhqESGeZn5ryyw"/>
+<button class="absolute -bottom-2 -right-2 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary">Rajesh Kumar</h2>
+<p class="text-on-surface-variant font-body-md text-body-md mt-1">Patient Admission: June 12, 2024</p>
+</div>
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-lg font-label-caps text-label-caps">ADMITTED</span>
+</div>
+<div class="grid grid-cols-2 gap-stack-md mt-stack-lg">
+<div>
+<p class="text-label-caps font-label-caps text-secondary uppercase tracking-wider">Contact Number</p>
+<p class="font-title-sm text-title-sm text-on-surface">+91 98765 43210</p>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-secondary uppercase tracking-wider">Diet Preference</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-green-700 text-sm" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<p class="font-title-sm text-title-sm text-on-surface">Vegetarian (Low Sodium)</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Location & Status Card -->
+<div class="md:col-span-4 bg-primary text-on-primary rounded-lg p-stack-lg flex flex-col justify-between relative overflow-hidden">
+<span class="material-symbols-outlined absolute -right-4 -top-4 text-on-primary-fixed-variant opacity-20 text-8xl">local_hospital</span>
+<div class="relative z-10">
+<h3 class="font-label-caps text-label-caps text-primary-fixed-dim uppercase tracking-widest mb-4">Current Placement</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between border-b border-on-primary-fixed-variant pb-2">
+<span class="font-body-md text-body-md">Ward Number</span>
+<span class="font-title-sm text-title-sm text-secondary-fixed">Cardiology - W4</span>
+</div>
+<div class="flex items-center justify-between border-b border-on-primary-fixed-variant pb-2">
+<span class="font-body-md text-body-md">Room Number</span>
+<span class="font-title-sm text-title-sm text-secondary-fixed">Private 402</span>
+</div>
+</div>
+</div>
+<div class="relative z-10 mt-6">
+<button class="w-full bg-on-primary text-primary font-title-sm text-title-sm py-3 rounded hover:bg-primary-fixed transition-colors">
+                            Request Transfer
+                        </button>
+</div>
+</div>
+</div>
+<!-- Stats & Preference Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Diet & Health Stats -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col">
+<div class="bg-surface-container-low p-4 border-b border-outline-variant">
+<h3 class="font-title-sm text-title-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">analytics</span>
+                            Order Statistics
+                        </h3>
+</div>
+<div class="p-6 flex-1 space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-4xl font-bold text-primary">24</span>
+<span class="text-label-caps text-on-surface-variant uppercase">Total Orders</span>
+</div>
+<div class="w-16 h-16 flex items-center justify-center rounded-full bg-primary-container text-on-primary-container">
+<span class="material-symbols-outlined text-3xl">shopping_cart</span>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-body-sm font-body-sm">
+<span>Monthly Goal Compliance</span>
+<span class="text-green-600 font-bold">92%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full">
+<div class="bg-primary-container h-full rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4">
+<div class="p-3 bg-surface rounded text-center">
+<p class="text-2xl font-bold text-tertiary-container">12</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Breakfast</p>
+</div>
+<div class="p-3 bg-surface rounded text-center">
+<p class="text-2xl font-bold text-tertiary-container">12</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Lunch/Dinner</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Diet Preferences Bento -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col">
+<div class="bg-surface-container-low p-4 border-b border-outline-variant">
+<h3 class="font-title-sm text-title-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">nutrition</span>
+                            Dietary Restrictions
+                        </h3>
+</div>
+<div class="p-6 flex-1">
+<div class="flex flex-wrap gap-2">
+<span class="bg-error-container text-on-error-container px-3 py-1.5 rounded-lg text-body-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">dangerous</span> No Gluten
+                            </span>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1.5 rounded-lg text-body-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">bolt</span> Low Sodium
+                            </span>
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1.5 rounded-lg text-body-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">eco</span> Dairy Free
+                            </span>
+</div>
+<div class="mt-8">
+<p class="text-label-caps font-label-caps text-secondary uppercase tracking-wider mb-2">Doctor's Note</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant italic border-l-4 border-outline-variant pl-4 py-2 bg-surface">
+                                "Patient should prioritize protein-rich vegetarian meals. Monitor salt intake closely."
+                            </p>
+</div>
+</div>
+</div>
+<!-- Account Actions -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col">
+<div class="bg-surface-container-low p-4 border-b border-outline-variant">
+<h3 class="font-title-sm text-title-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">settings_account_box</span>
+                            Account Management
+                        </h3>
+</div>
+<div class="p-6 flex-1 flex flex-col gap-3">
+<button class="w-full text-left px-4 py-3 rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">edit_square</span>
+<span class="font-title-sm text-title-sm">Edit Profile</span>
+</div>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+<button class="w-full text-left px-4 py-3 rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">lock_reset</span>
+<span class="font-title-sm text-title-sm">Change Password</span>
+</div>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+<button class="w-full text-left px-4 py-3 rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+<span class="font-title-sm text-title-sm">Security Audit</span>
+</div>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+<div class="mt-auto pt-6">
+<button class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white text-error border border-error font-title-sm text-title-sm rounded hover:bg-error hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined">logout</span>
+                                Logout Account
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+<div class="bg-surface-container-low p-4 border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-title-sm text-title-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">history</span>
+                        Recent Order Activity
+                    </h3>
+<button class="text-primary font-label-caps text-label-caps hover:underline">VIEW ALL</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-high/50 border-b border-outline-variant">
+<th class="p-4 font-label-caps text-label-caps text-primary">ORDER ID</th>
+<th class="p-4 font-label-caps text-label-caps text-primary">DATE</th>
+<th class="p-4 font-label-caps text-label-caps text-primary">ITEMS</th>
+<th class="p-4 font-label-caps text-label-caps text-primary">TOTAL</th>
+<th class="p-4 font-label-caps text-label-caps text-primary">STATUS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container transition-colors">
+<td class="p-4 font-body-md text-body-md font-semibold">#9831</td>
+<td class="p-4 font-body-sm text-body-sm text-on-surface-variant">Today, 12:30 PM</td>
+<td class="p-4 font-body-sm text-body-sm text-on-surface-variant">Boiled Rice, Dal Tadka, Curd</td>
+<td class="p-4 font-body-sm text-body-sm font-semibold">₹145.00</td>
+<td class="p-4">
+<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[11px] font-bold uppercase">Delivered</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors bg-surface-container-low/30">
+<td class="p-4 font-body-md text-body-md font-semibold">#9812</td>
+<td class="p-4 font-body-sm text-body-sm text-on-surface-variant">Yesterday, 8:00 AM</td>
+<td class="p-4 font-body-sm text-body-sm text-on-surface-variant">Oatmeal, Apple Juice</td>
+<td class="p-4 font-body-sm text-body-sm font-semibold">₹85.00</td>
+<td class="p-4">
+<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[11px] font-bold uppercase">Delivered</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="p-4 font-body-md text-body-md font-semibold">#9798</td>
+<td class="p-4 font-body-sm text-body-sm text-on-surface-variant">14 Jun, 7:45 PM</td>
+<td class="p-4 font-body-sm text-body-sm text-on-surface-variant">Vegetable Soup, Toasted Bread</td>
+<td class="p-4 font-body-sm text-body-sm font-semibold">₹110.00</td>
+<td class="p-4">
+<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[11px] font-bold uppercase">Delivered</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Footer Info -->
+<footer class="mt-auto py-8 text-center text-on-surface-variant border-t border-outline-variant bg-surface">
+<p class="font-body-sm text-body-sm">© 2024 CCL Hospital Food &amp; Queue Management System. All Rights Reserved.</p>
+<p class="text-xs mt-1 text-outline">v2.4.0-stable | Official Institutional Portal</p>
+</footer>
+</main>
+<script>
+        // Simple micro-interaction for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.style.transform = 'scale(0.98)';
+            });
+            button.addEventListener('mouseup', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

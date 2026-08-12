@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Preference - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="menu.html">Order Food</a></li>
+                <li><a href="order-history.html">History</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="btn btn-accent">🛒 Cart</a>
+                <button class="user-menu-trigger" onclick="toggleUserMenu()">👤 Account</button>
+                <div id="userMenu"
+                    style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; min-width: 200px;">
+                    <a href="profile.html"
+                        style="display: block; padding: 12px 16px; border-bottom: 1px solid #ddd; text-decoration: none;">👤
+                        Profile</a>
+                    <a href="#" onclick="logoutFromDashboard()"
+                        style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="dashboard-wrapper" style="grid-template-columns: 1fr;">
+        <main class="dashboard-content">
+            <div class="content-header">
+                <h1>Diet Preferences</h1>
+                <p style="color: #6c757d;">Customize your diet preferences for personalized meal recommendations</p>
+            </div>
+
+            <!-- Diet Options -->
+            <div class="grid-2" style="margin-bottom: 40px;">
+                <div class="card" style="cursor: pointer; border: 3px solid #ccc; transition: all 0.3s ease;"
+                    id="diet-Normal">
+                    <h4>🍽️ Normal Diet</h4>
+                    <p>Balanced meals with all food groups for general nutrition and wellness.</p>
+                    <button class="btn btn-small btn-primary"
+                        onclick="selectDiet('Normal Diet', 'normal-diet')">Select</button>
+                </div>
+
+                <div class="card" style="cursor: pointer; border: 3px solid #ccc; transition: all 0.3s ease;"
+                    id="diet-Diabetic">
+                    <h4>🍎 Diabetic Diet</h4>
+                    <p>Low glycemic index foods to help manage blood sugar levels effectively.</p>
+                    <button class="btn btn-small btn-primary"
+                        onclick="selectDiet('Diabetic Diet', 'diabetic-diet')">Select</button>
+                </div>
+
+                <div class="card" style="cursor: pointer; border: 3px solid #ccc; transition: all 0.3s ease;"
+                    id="diet-Low-Salt">
+                    <h4>🧂 Low Salt Diet</h4>
+                    <p>Minimal sodium content to support heart and kidney health.</p>
+                    <button class="btn btn-small btn-primary"
+                        onclick="selectDiet('Low Salt Diet', 'low-salt-diet')">Select</button>
+                </div>
+
+                <div class="card" style="cursor: pointer; border: 3px solid #ccc; transition: all 0.3s ease;"
+                    id="diet-High-Protein">
+                    <h4>💪 High Protein Diet</h4>
+                    <p>Protein-rich meals for muscle maintenance and faster recovery.</p>
+                    <button class="btn btn-small btn-primary"
+                        onclick="selectDiet('High Protein Diet', 'high-protein-diet')">Select</button>
+                </div>
+
+                <div class="card" style="cursor: pointer; border: 3px solid #ccc; transition: all 0.3s ease;"
+                    id="diet-Weight-Management">
+                    <h4>⚖️ Weight Management</h4>
+                    <p>Calorie-controlled meals designed for healthy weight management.</p>
+                    <button class="btn btn-small btn-primary"
+                        onclick="selectDiet('Weight Management Diet', 'weight-management-diet')">Select</button>
+                </div>
+
+                <div class="card" style="cursor: pointer; border: 3px solid #ccc; transition: all 0.3s ease;"
+                    id="diet-Senior-Citizen">
+                    <h4>👴 Senior Citizen Diet</h4>
+                    <p>Nutrient-dense, easy-to-digest foods for senior nutritional needs.</p>
+                    <button class="btn btn-small btn-primary"
+                        onclick="selectDiet('Senior Citizen Diet', 'senior-citizen-diet')">Select</button>
+                </div>
+            </div>
+
+            <!-- Notification -->
+            <div id="notificationContainer"></div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FoodEaze</h4>
+                    <p>Making hospital food ordering easy and convenient.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="order-history.html">Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: support@foodeaze.com<br>Phone: +91-xxx-xxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodEaze - CCL Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        // Initialize page
+        window.addEventListener('load', async () => {
+            setupAuthRedirects();
+        });
+
+        // Select diet and navigate to diet-specific page
+        function selectDiet(dietName, pageFile) {
+            showNotification(`Selected: ${dietName}`, 'success');
+            setTimeout(() => {
+                window.location.href = pageFile + '.html';
+            }, 300);
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} show`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '100px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.maxWidth = '400px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(alertDiv);
+
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Close user menu on outside click
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('userMenu');
+            if (!e.target.closest('.user-menu-trigger') && !e.target.closest('#userMenu')) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

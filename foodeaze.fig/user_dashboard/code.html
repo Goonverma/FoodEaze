@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Dashboard - CCL Hospital Food &amp; Queue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#5b4300",
+                    "inverse-surface": "#2e3132",
+                    "error-container": "#ffdad6",
+                    "secondary": "#5d5f5f",
+                    "tertiary": "#291c00",
+                    "on-background": "#191c1d",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdf9e",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#003366",
+                    "on-primary-container": "#799dd6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f3f4f5",
+                    "on-secondary-fixed-variant": "#454747",
+                    "on-surface": "#191c1d",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "on-primary-fixed": "#001b3c",
+                    "on-primary-fixed-variant": "#1f477b",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-tertiary-container": "#c49400",
+                    "surface-container-high": "#e7e8e9",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "outline": "#737780",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-error": "#ffffff",
+                    "surface-bright": "#f8f9fa",
+                    "tertiary-fixed-dim": "#fabd00",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a7c8ff",
+                    "surface-variant": "#e1e3e4",
+                    "secondary-container": "#dfe0e0",
+                    "outline-variant": "#c3c6d1",
+                    "surface": "#f8f9fa",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#d5e3ff",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "surface-container": "#edeeef",
+                    "primary": "#001e40",
+                    "surface-tint": "#3a5f94",
+                    "tertiary-container": "#433000",
+                    "on-surface-variant": "#43474f",
+                    "background": "#f8f9fa",
+                    "on-secondary-container": "#616363",
+                    "on-tertiary-fixed": "#261a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-lg": "2rem",
+                    "margin-mobile": "1rem",
+                    "stack-sm": "0.5rem",
+                    "gutter": "1.5rem",
+                    "stack-md": "1rem",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "title-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "title-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E9ECEF;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f3f5; }
+        ::-webkit-scrollbar-thumb { background: #001e40; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full flex-col p-stack-md gap-stack-sm bg-primary dark:bg-primary docked h-screen w-64 left-0 z-50">
+<div class="flex items-center gap-stack-sm mb-stack-lg">
+<div class="w-10 h-10 bg-on-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">festival</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-primary">CCL Hospital</h2>
+<p class="text-[10px] uppercase tracking-wider text-primary-fixed-dim">Food &amp; Queue Management</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-semibold duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all rounded-lg duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-body-md text-body-md">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all rounded-lg duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-body-md text-body-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all rounded-lg duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-md text-body-md">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all rounded-lg duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md text-body-md">Profile</span>
+</a>
+</nav>
+<div class="mt-auto pt-stack-md border-t border-on-primary-fixed-variant/20 flex flex-col gap-1">
+<button class="w-full mb-4 py-3 px-4 bg-tertiary-fixed text-on-tertiary-fixed font-bold rounded-lg flex items-center justify-center gap-2 hover:bg-tertiary-fixed-dim transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+                Place New Order
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-primary-fixed-dim hover:text-on-primary transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md text-body-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-primary-fixed-dim hover:text-on-primary transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-gutter h-16 sticky top-0 z-40 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline flat no shadows">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display-lg text-display-lg text-primary-container dark:text-primary-fixed hidden md:block">CCL Hospital Food &amp; Queue</h1>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary-container md:hidden">CCL</h1>
+</div>
+<div class="flex items-center gap-stack-md">
+<div class="hidden lg:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<span class="text-on-surface-variant text-body-sm">Search orders or menu...</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-2 cursor-pointer group">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional close-up studio portrait of a patient in a light blue clinical gown, looking calm and friendly against a soft-focus clinical background. The lighting is bright and warm, emphasizing a sense of well-being and high-quality care. The overall aesthetic is clean, medical, and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADPGcA9dM6dvlR0xD0m-DYCJW1z82Md0_JRkOLg-pi2mbYNd6ZA-kFpnltt_m-cOmHWSNS3wVT7CTqCbXxdtglve6as3AdzruLITD-unfw9a34Q9ZDhubtbU2rVm1HZKPpW_Nzk_yRmAwi25AhBl49xc5ajJNB44YMvWa8Q2cSkiQKbwYygp12a3GGABT6xRrwufdTxTli6fQvljYhaOfKcHnk1vIMKKaKzFw7XnQh4P_Mz5EbR3DBXU86lCG_vc9p8KYDh8K5_kg"/>
+</div>
+<span class="font-title-sm text-title-sm text-primary-container hidden sm:block">Profile</span>
+</div>
+</div>
+</div>
+</header>
+<div class="p-gutter max-w-container-max mx-auto space-y-stack-lg">
+<!-- Welcome Section: Bento Style -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 relative overflow-hidden rounded-xl bg-primary-container p-8 text-on-primary flex flex-col justify-between min-h-[220px]">
+<div class="z-10">
+<p class="text-on-primary-container font-label-caps tracking-widest mb-2 uppercase">Patient Dashboard</p>
+<h2 class="font-display-lg text-display-lg text-white mb-1">Welcome back, Aditi Sharma</h2>
+<div class="flex flex-wrap gap-4 mt-4">
+<div class="bg-white/10 backdrop-blur px-4 py-2 rounded-lg border border-white/20">
+<p class="text-[10px] text-white/70 uppercase font-semibold">Ward Number</p>
+<p class="text-xl font-bold">General Ward 04</p>
+</div>
+<div class="bg-white/10 backdrop-blur px-4 py-2 rounded-lg border border-white/20">
+<p class="text-[10px] text-white/70 uppercase font-semibold">Room Number</p>
+<p class="text-xl font-bold">Bed B-122</p>
+</div>
+</div>
+</div>
+<div class="absolute right-[-20px] bottom-[-20px] opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[200px]" style="font-variation-settings: 'FILL' 1;">medical_information</span>
+</div>
+</div>
+<div class="glass-card rounded-xl p-6 flex flex-col justify-center items-center text-center">
+<div class="w-16 h-16 bg-tertiary-fixed rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-tertiary-fixed text-3xl" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Ready for Lunch?</h3>
+<p class="text-on-surface-variant text-body-sm mb-6 px-4">Standard nutritious meals are currently being prepared for Ward 04.</p>
+<button class="w-full py-3 bg-primary text-on-primary font-bold rounded-lg hover:shadow-lg transition-all active:scale-[0.98]">
+                        View Food Menu
+                    </button>
+</div>
+</section>
+<!-- Quick Statistics Cards -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="glass-card p-4 rounded-xl border-l-4 border-l-primary-container transition-transform hover:scale-[1.02]">
+<p class="text-on-surface-variant text-label-caps uppercase mb-1">Active Orders</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-primary">02</span>
+<span class="material-symbols-outlined text-primary-container text-lg">pending_actions</span>
+</div>
+</div>
+<div class="glass-card p-4 rounded-xl border-l-4 border-l-tertiary-fixed transition-transform hover:scale-[1.02]">
+<p class="text-on-surface-variant text-label-caps uppercase mb-1">Pending Orders</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-tertiary-fixed-dim">01</span>
+<span class="material-symbols-outlined text-tertiary-container text-lg">hourglass_empty</span>
+</div>
+</div>
+<div class="glass-card p-4 rounded-xl border-l-4 border-l-green-600 transition-transform hover:scale-[1.02]">
+<p class="text-on-surface-variant text-label-caps uppercase mb-1">Delivered</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-green-700">14</span>
+<span class="material-symbols-outlined text-green-600 text-lg">check_circle</span>
+</div>
+</div>
+<div class="glass-card p-4 rounded-xl border-l-4 border-l-outline transition-transform hover:scale-[1.02]">
+<p class="text-on-surface-variant text-label-caps uppercase mb-1">Total Orders</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-on-surface">17</span>
+<span class="material-symbols-outlined text-on-surface-variant text-lg">receipt</span>
+</div>
+</div>
+</section>
+<!-- Quick Actions Grid -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-md text-headline-md text-primary">Quick Actions</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<button class="flex items-center gap-4 p-4 glass-card rounded-xl hover:bg-primary hover:text-white group transition-all">
+<div class="w-12 h-12 bg-primary-container/10 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-primary-container group-hover:text-white">restaurant_menu</span>
+</div>
+<div class="text-left">
+<p class="font-title-sm text-title-sm">View Food Menu</p>
+<p class="text-[10px] opacity-70">Nutrition &amp; Diets</p>
+</div>
+</button>
+<button class="flex items-center gap-4 p-4 glass-card rounded-xl hover:bg-primary hover:text-white group transition-all">
+<div class="w-12 h-12 bg-primary-container/10 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-primary-container group-hover:text-white">location_on</span>
+</div>
+<div class="text-left">
+<p class="font-title-sm text-title-sm">Track Orders</p>
+<p class="text-[10px] opacity-70">Real-time status</p>
+</div>
+</button>
+<button class="flex items-center gap-4 p-4 glass-card rounded-xl hover:bg-primary hover:text-white group transition-all">
+<div class="w-12 h-12 bg-primary-container/10 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-primary-container group-hover:text-white">history</span>
+</div>
+<div class="text-left">
+<p class="font-title-sm text-title-sm">Order History</p>
+<p class="text-[10px] opacity-70">Previous billing</p>
+</div>
+</button>
+<button class="flex items-center gap-4 p-4 glass-card rounded-xl hover:bg-primary hover:text-white group transition-all">
+<div class="w-12 h-12 bg-primary-container/10 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-primary-container group-hover:text-white">account_circle</span>
+</div>
+<div class="text-left">
+<p class="font-title-sm text-title-sm">Profile Settings</p>
+<p class="text-[10px] opacity-70">Manage account</p>
+</div>
+</button>
+</div>
+</section>
+<!-- Recent Orders Table Section -->
+<section class="glass-card rounded-xl overflow-hidden">
+<div class="p-6 border-b border-outline-variant bg-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Recent Orders</h2>
+<p class="text-on-surface-variant text-body-sm">Your last 5 meal transactions</p>
+</div>
+<button class="px-4 py-2 text-primary border border-primary rounded-lg font-semibold hover:bg-primary-container/5 transition-colors">
+                        View All Orders
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 text-on-surface-variant font-label-caps uppercase border-b border-outline-variant">Order ID</th>
+<th class="px-6 py-4 text-on-surface-variant font-label-caps uppercase border-b border-outline-variant">Food Item</th>
+<th class="px-6 py-4 text-on-surface-variant font-label-caps uppercase border-b border-outline-variant text-center">Quantity</th>
+<th class="px-6 py-4 text-on-surface-variant font-label-caps uppercase border-b border-outline-variant">Status</th>
+<th class="px-6 py-4 text-on-surface-variant font-label-caps uppercase border-b border-outline-variant">Time</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-mono text-sm">#ORD-9921</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">soup_kitchen</span>
+</div>
+<span class="font-medium">Oats &amp; Mixed Fruit Porridge</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">01</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary-container/10 text-primary-container">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                                        In Progress
+                                    </span>
+</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">08:45 AM, Today</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="px-6 py-4 font-mono text-sm">#ORD-9844</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">local_cafe</span>
+</div>
+<span class="font-medium">Herbal Green Tea</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">02</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-tertiary-fixed text-on-tertiary-container">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+                                        Pending
+                                    </span>
+</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">07:15 AM, Today</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-mono text-sm">#ORD-9712</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">dinner_dining</span>
+</div>
+<span class="font-medium">Vegetable Khichdi with Curd</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">01</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+<span class="material-symbols-outlined text-[14px]">done</span>
+                                        Delivered
+                                    </span>
+</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">08:30 PM, Yesterday</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="px-6 py-4 font-mono text-sm">#ORD-9655</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">local_pizza</span>
+</div>
+<span class="font-medium">Multigrain Roti with Dal</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">01</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+<span class="material-symbols-outlined text-[14px]">done</span>
+                                        Delivered
+                                    </span>
+</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">01:45 PM, Yesterday</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<footer class="p-gutter text-center text-on-surface-variant text-body-sm mt-stack-lg border-t border-outline-variant/30">
+            © 2024 Central Coalfields Limited Hospital • Food &amp; Queue Management System • V2.1.0
+        </footer>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant flex justify-around items-center h-16 z-50">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="text-[10px]">Menu</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-[10px]">Orders</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px]">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = '#003366';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = '#E9ECEF';
+            });
+        });
+
+        // Sticky header transparency effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-md');
+                header.style.backgroundColor = 'rgba(248, 249, fa, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.classList.remove('shadow-md');
+                header.style.backgroundColor = '#f8f9fa';
+                header.style.backdropFilter = 'none';
+            }
+        });
+    </script>
+</body></html>

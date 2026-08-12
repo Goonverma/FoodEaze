@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Diet Preference System | CCL Hospital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#5b4300",
+                        "inverse-surface": "#2e3132",
+                        "error-container": "#ffdad6",
+                        "secondary": "#5d5f5f",
+                        "tertiary": "#291c00",
+                        "on-background": "#191c1d",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#ffdf9e",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#003366",
+                        "on-primary-container": "#799dd6",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-surface": "#191c1d",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed": "#001b3c",
+                        "on-primary-fixed-variant": "#1f477b",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-tertiary-container": "#c49400",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d9dadb",
+                        "outline": "#737780",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "tertiary-fixed-dim": "#fabd00",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#a7c8ff",
+                        "surface-variant": "#e1e3e4",
+                        "secondary-container": "#dfe0e0",
+                        "outline-variant": "#c3c6d1",
+                        "surface": "#f8f9fa",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#d5e3ff",
+                        "primary-fixed-dim": "#a7c8ff",
+                        "surface-container": "#edeeef",
+                        "primary": "#001e40",
+                        "surface-tint": "#3a5f94",
+                        "tertiary-container": "#433000",
+                        "on-surface-variant": "#43474f",
+                        "background": "#f8f9fa",
+                        "on-secondary-container": "#616363",
+                        "on-tertiary-fixed": "#261a00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-lg": "2rem",
+                        "margin-mobile": "1rem",
+                        "stack-sm": "0.5rem",
+                        "gutter": "1.5rem",
+                        "stack-md": "1rem",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "title-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: 1.5rem;
+        }
+        .diet-card-selected {
+            border: 2px solid #003366;
+            background-color: #d5e3ff;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface flex justify-between items-center w-full px-gutter h-16 sticky top-0 z-40 border-b border-outline-variant">
+<div class="flex items-center gap-stack-md">
+<span class="font-display-lg text-display-lg text-primary-container">CCL Hospital Food &amp; Queue</span>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="hidden md:flex items-center bg-surface-container-low px-stack-md py-1.5 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-48" placeholder="Search diet plans..." type="text"/>
+</div>
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-primary cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer">settings</span>
+<div class="flex items-center gap-2 cursor-pointer ml-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-xs">JD</div>
+<span class="font-title-sm text-title-sm text-primary">Profile</span>
+</div>
+</div>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 bg-primary flex flex-col p-stack-md gap-stack-sm z-50 transition-all duration-200 ease-in-out hidden md:flex">
+<div class="mb-stack-lg pt-4">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-on-primary text-3xl">local_hospital</span>
+<h2 class="font-headline-md text-headline-md text-on-primary">CCL Hospital</h2>
+</div>
+<p class="text-primary-fixed-dim text-xs opacity-80">Food &amp; Queue Management</p>
+</div>
+<div class="flex flex-col gap-1 flex-grow">
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 p-3 bg-primary-container text-on-primary-container rounded-lg font-semibold transition-all duration-200" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-body-md text-body-md">Menu</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-body-md text-body-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-md text-body-md">History</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md text-body-md">Profile</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-1 border-t border-on-primary-fixed-variant pt-stack-md">
+<button class="bg-primary-fixed text-on-primary-fixed font-bold py-3 px-4 rounded-lg mb-4 flex items-center justify-center gap-2 active:opacity-80">
+<span class="material-symbols-outlined text-sm">add</span>
+                    Place New Order
+                </button>
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md text-body-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 w-full p-gutter">
+<div class="max-w-container-max mx-auto">
+<!-- Header & Breadcrumb -->
+<div class="mb-stack-lg">
+<nav class="flex text-on-surface-variant text-xs mb-2 gap-2 items-center">
+<span>Patient Care</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="font-semibold text-primary">Diet Preference System</span>
+</nav>
+<h1 class="font-display-lg text-display-lg text-primary">Diet Preference Configuration</h1>
+<p class="text-on-surface-variant font-body-md max-w-2xl mt-1">Select the therapeutic diet category prescribed by your healthcare provider to view tailored meal recommendations and medical guidelines.</p>
+</div>
+<!-- Diet Selection Grid -->
+<section class="mb-stack-lg">
+<h2 class="font-title-sm text-title-sm text-on-surface mb-stack-md uppercase tracking-wider">Select Diet Category</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-stack-md">
+<!-- Normal Diet -->
+<div class="diet-card group bg-surface border border-outline-variant p-stack-md rounded-lg cursor-pointer hover:border-primary-container transition-all flex flex-col items-center text-center" onclick="selectDiet(this)">
+<div class="w-12 h-12 bg-surface-container-high rounded-full flex items-center justify-center mb-3 group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<span class="font-title-sm text-title-sm">Normal Diet</span>
+<span class="text-xs text-on-surface-variant mt-1">Standard balanced nutrition</span>
+</div>
+<!-- Diabetic Diet -->
+<div class="diet-card diet-card-selected group bg-surface border border-outline-variant p-stack-md rounded-lg cursor-pointer hover:border-primary-container transition-all flex flex-col items-center text-center" onclick="selectDiet(this)">
+<div class="w-12 h-12 bg-primary-container text-on-primary rounded-full flex items-center justify-center mb-3">
+<span class="material-symbols-outlined">bloodtype</span>
+</div>
+<span class="font-title-sm text-title-sm">Diabetic Diet</span>
+<span class="text-xs text-on-surface-variant mt-1">Low Glycemic Index</span>
+</div>
+<!-- Low Salt Diet -->
+<div class="diet-card group bg-surface border border-outline-variant p-stack-md rounded-lg cursor-pointer hover:border-primary-container transition-all flex flex-col items-center text-center" onclick="selectDiet(this)">
+<div class="w-12 h-12 bg-surface-container-high rounded-full flex items-center justify-center mb-3 group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">water_drop</span>
+</div>
+<span class="font-title-sm text-title-sm">Low Salt Diet</span>
+<span class="text-xs text-on-surface-variant mt-1">Cardiac/Hypertension</span>
+</div>
+<!-- High Protein Diet -->
+<div class="diet-card group bg-surface border border-outline-variant p-stack-md rounded-lg cursor-pointer hover:border-primary-container transition-all flex flex-col items-center text-center" onclick="selectDiet(this)">
+<div class="w-12 h-12 bg-surface-container-high rounded-full flex items-center justify-center mb-3 group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<span class="font-title-sm text-title-sm">High Protein</span>
+<span class="text-xs text-on-surface-variant mt-1">Recovery &amp; Strengthening</span>
+</div>
+<!-- Weight Management -->
+<div class="diet-card group bg-surface border border-outline-variant p-stack-md rounded-lg cursor-pointer hover:border-primary-container transition-all flex flex-col items-center text-center" onclick="selectDiet(this)">
+<div class="w-12 h-12 bg-surface-container-high rounded-full flex items-center justify-center mb-3 group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">scale</span>
+</div>
+<span class="font-title-sm text-title-sm">Weight Mgmt.</span>
+<span class="text-xs text-on-surface-variant mt-1">Calorie controlled</span>
+</div>
+</div>
+</section>
+<!-- Bento Info Layout -->
+<div class="bento-grid">
+<!-- Diet Summary Panel -->
+<div class="col-span-12 lg:col-span-4 bg-primary text-on-primary p-stack-lg rounded-xl shadow-lg border border-on-primary-fixed-variant relative overflow-hidden">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined">info</span>
+<span class="font-label-caps text-label-caps opacity-80 uppercase">Current Prescription</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">Diabetic Therapeutic Diet</h3>
+<p class="font-body-sm text-body-sm opacity-90 leading-relaxed">Focuses on complex carbohydrates, high fiber, and lean proteins to maintain stable blood glucose levels. Essential for Type 1 and Type 2 diabetes management in clinical settings.</p>
+<div class="mt-stack-lg space-y-4">
+<div class="flex items-center justify-between border-b border-on-primary-fixed-variant pb-2">
+<span class="text-body-sm opacity-70">Daily Calories</span>
+<span class="font-bold">1,800 kcal</span>
+</div>
+<div class="flex items-center justify-between border-b border-on-primary-fixed-variant pb-2">
+<span class="text-body-sm opacity-70">Carbohydrates</span>
+<span class="font-bold">45-50%</span>
+</div>
+<div class="flex items-center justify-between border-b border-on-primary-fixed-variant pb-2">
+<span class="text-body-sm opacity-70">Protein</span>
+<span class="font-bold">20-25%</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-body-sm opacity-70">Sodium</span>
+<span class="font-bold">&lt; 2,300 mg</span>
+</div>
+</div>
+</div>
+<div class="absolute -bottom-10 -right-10 opacity-10">
+<span class="material-symbols-outlined text-[160px]">health_and_safety</span>
+</div>
+</div>
+<!-- Recommended Meal Plans -->
+<div class="col-span-12 lg:col-span-8 bg-surface border border-outline-variant rounded-xl overflow-hidden">
+<div class="bg-surface-container-low p-stack-md border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-title-sm text-title-sm text-primary">Today's Recommended Meal Plan</h3>
+<button class="text-primary text-xs font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">print</span> PRINT PDF
+                            </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-high text-primary border-b border-outline-variant">
+<tr>
+<th class="p-stack-md font-label-caps text-label-caps">MEAL</th>
+<th class="p-stack-md font-label-caps text-label-caps">MENU ITEM</th>
+<th class="p-stack-md font-label-caps text-label-caps">NUTRITION HIGHLIGHT</th>
+<th class="p-stack-md font-label-caps text-label-caps">PORTION</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-stack-md"><span class="bg-primary-container text-on-primary text-[10px] px-2 py-0.5 rounded uppercase font-bold">Breakfast</span></td>
+<td class="p-stack-md font-body-sm">Steel-cut Oats with Walnuts &amp; Cinnamon</td>
+<td class="p-stack-md font-body-sm text-on-surface-variant">High Fiber / Low GI</td>
+<td class="p-stack-md font-body-sm">1.5 Cups</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="p-stack-md"><span class="bg-primary-container text-on-primary text-[10px] px-2 py-0.5 rounded uppercase font-bold">Lunch</span></td>
+<td class="p-stack-md font-body-sm">Grilled Lemon Herb Salmon with Quinoa</td>
+<td class="p-stack-md font-body-sm text-on-surface-variant">Omega-3 / Lean Protein</td>
+<td class="p-stack-md font-body-sm">200g Salmon</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-stack-md"><span class="bg-primary-container text-on-primary text-[10px] px-2 py-0.5 rounded uppercase font-bold">Snack</span></td>
+<td class="p-stack-md font-body-sm">Greek Yogurt with Chia Seeds</td>
+<td class="p-stack-md font-body-sm text-on-surface-variant">Probiotic / Calcium</td>
+<td class="p-stack-md font-body-sm">1 Small Bowl</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="p-stack-md"><span class="bg-primary-container text-on-primary text-[10px] px-2 py-0.5 rounded uppercase font-bold">Dinner</span></td>
+<td class="p-stack-md font-body-sm">Tofu Stir-fry with Steamed Broccoli</td>
+<td class="p-stack-md font-body-sm text-on-surface-variant">Low Sodium / Plant Based</td>
+<td class="p-stack-md font-body-sm">2 Cups</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Recommended Foods (Asymmetric Card) -->
+<div class="col-span-12 md:col-span-7 bg-surface border border-outline-variant rounded-xl p-stack-lg">
+<div class="flex items-center justify-between mb-stack-lg">
+<h3 class="font-headline-md text-headline-md text-primary">Therapeutic Pantry</h3>
+<span class="bg-on-tertiary-fixed-variant text-white text-[10px] px-2 py-1 rounded font-bold">VERIFIED BY DIETICIAN</span>
+</div>
+<div class="grid grid-cols-2 gap-stack-md">
+<div class="flex gap-stack-md items-start">
+<div class="w-16 h-16 rounded bg-cover bg-center shrink-0 border border-outline-variant" data-alt="Close up high quality photo of a bowl of fresh assorted berries including blueberries and raspberries on a white background with bright medical professional lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdVxj8DpYzwadKrtS4LstPFiAdruy8vtRwFUVq0KKyJRufsGJ2_F0Lumj-Hoz9R1d6EmKzVL7U4OAAYwsXLuJwTjETnWdEt0NP1HEGAFs1ZhUYjDveWd8oxS3ur0-O2t-OGk4G_rEc1s4XgNsrGzpyLLHc9hCQl1r3LATox_GmPGuzVi3Iux6GmoOK_EnCJkAAAIeaVdn-jhfeetqgclYeB-X62h31N6wB6aZbXAm4Ef-2s62DqqurTN0D5AkOYloxa2vD6ZCJoNw')"></div>
+<div>
+<p class="font-title-sm text-title-sm text-on-surface">Fresh Berries</p>
+<p class="text-xs text-on-surface-variant">Natural antioxidants, low sugar profile.</p>
+</div>
+</div>
+<div class="flex gap-stack-md items-start">
+<div class="w-16 h-16 rounded bg-cover bg-center shrink-0 border border-outline-variant" data-alt="Studio photograph of fresh green leafy spinach and kale leaves artfully arranged under clean bright commercial lighting on a clinical white surface." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCs6kleJuJ8y0T7EoEAOnVXPibvyODEDWnuNqHT208OG_9Pz_h4NAuAHgYb8FaGmrzhVazVM-W4uzeUSE-xoFZeSObtFlHaG7Ee-_o5QPSfYbzdagHDUkX6tLTkJpKzQjzmUZxJSlHsZWpkcweHn0cUjU_4Cl7UQVwiuKTJ2lthWK_-BI_7uY3YsjpaEE0nOQXOlx2gh_zqiqdn-jLYtkJDLKBRacaBkVbxtO4GRO6Wq_BKlhRrSw8fVMA4EqudAVZeSOP2h7m8UjA')"></div>
+<div>
+<p class="font-title-sm text-title-sm text-on-surface">Leafy Greens</p>
+<p class="text-xs text-on-surface-variant">High in magnesium and vitamin C.</p>
+</div>
+</div>
+<div class="flex gap-stack-md items-start">
+<div class="w-16 h-16 rounded bg-cover bg-center shrink-0 border border-outline-variant" data-alt="High resolution professional macro shot of whole grains including quinoa and brown rice showing texture and color under warm natural kitchen lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCNJa47u3R8wpirUijeoLz-vRxbOANgvUNXuuZvRHqO4FMk9qZJuWRHB_b7o6xG3rAGMUDtKNk2yc3SJxVkbHHENCDsnIdaetSCjFpNiMP9LGt7g3Odc1jtFzwNgWMZ1lSliwxUle9-L8wEsuW-YrQ9cIBBUTMMpMOWN_zyABv1VbtC_QM4sVj-wVox7azi02EVJROt36FhSRl3X3OHRfI_eCEkc5M0TL7p0rUOayRkL0haAd6dmla7Tu78MQUWhSjXXiM2R3FuPBQ')"></div>
+<div>
+<p class="font-title-sm text-title-sm text-on-surface">Whole Grains</p>
+<p class="text-xs text-on-surface-variant">Sustained energy and digestive health.</p>
+</div>
+</div>
+<div class="flex gap-stack-md items-start">
+<div class="w-16 h-16 rounded bg-cover bg-center shrink-0 border border-outline-variant" data-alt="A pile of assorted raw nuts like almonds and walnuts on a light gray stone background with soft professional lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDzv1MB6LH8khfmCCKgyaVO6C-05suj9058UQf4msz8kl0j8G96jFBYD1JsRFpQxTYTymSgFysqsvGiCvQbskp1UYmsVyG_PCmgZ0PPNXeFcY-LqUFzKqaAToCVgg_yT--DlG23cvRctXYVRWL1q3MF40zs85s0W_lNCWw_zNg7Gwv5-5ajAscapjJJMnhr2wscwlHGuXtKYUskhYIhpsYszuuXZNKnz6UoYz-Q2tzZQW56hqc_Afh_OTiQlrlPwqCXtyzu_ZsHjXo')"></div>
+<div>
+<p class="font-title-sm text-title-sm text-on-surface">Healthy Nuts</p>
+<p class="text-xs text-on-surface-variant">Heart healthy fats and fiber.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Health Tips Card -->
+<div class="col-span-12 md:col-span-5 flex flex-col gap-stack-md">
+<div class="bg-tertiary-fixed text-on-tertiary-fixed p-stack-md rounded-xl border border-outline-variant flex-1 flex flex-col justify-center">
+<div class="flex items-center gap-2 mb-2 text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined">lightbulb</span>
+<span class="font-label-caps text-label-caps uppercase">Quick Tip</span>
+</div>
+<h4 class="font-title-sm text-title-sm mb-1">Stay Hydrated</h4>
+<p class="font-body-sm text-body-sm">Consistent water intake helps fiber do its job and regulates metabolic function during recovery.</p>
+</div>
+<div class="bg-surface-container-highest text-on-surface p-stack-md rounded-xl border border-outline-variant flex-1 flex flex-col justify-center">
+<div class="flex items-center gap-2 mb-2 text-on-surface-variant">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-label-caps text-label-caps uppercase">Careful</span>
+</div>
+<h4 class="font-title-sm text-title-sm mb-1">Check Labels</h4>
+<p class="font-body-sm text-body-sm">Hidden sugars are often found in hospital snacks. Always cross-check with your prescribed chart.</p>
+</div>
+</div>
+</div>
+<!-- Action CTA -->
+<div class="mt-stack-lg flex flex-col md:flex-row items-center justify-between p-stack-lg bg-surface border border-outline-variant rounded-xl gap-stack-md">
+<div>
+<h4 class="font-title-sm text-title-sm text-primary">Need a personalized consultation?</h4>
+<p class="text-body-sm text-on-surface-variant">Our clinical nutritionists are available for bedside consultations between 10 AM and 4 PM.</p>
+</div>
+<div class="flex gap-stack-sm">
+<button class="px-6 py-2.5 border border-primary text-primary font-bold rounded-lg hover:bg-surface-container transition-colors">Chat with Dietitian</button>
+<button class="px-6 py-2.5 bg-primary text-on-primary font-bold rounded-lg active:scale-95 transition-transform shadow-sm">Schedule Assessment</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant grid grid-cols-5 h-16 z-50">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary-container font-bold border-t-2 border-primary-container" href="#">
+<span class="material-symbols-outlined text-xl">restaurant_menu</span>
+<span class="text-[10px]">Menu</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-xl">shopping_cart</span>
+<span class="text-[10px]">Order</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-xl">history</span>
+<span class="text-[10px]">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-xl">person</span>
+<span class="text-[10px]">Profile</span>
+</a>
+</nav>
+<script>
+        function selectDiet(element) {
+            // Remove selection class from all
+            document.querySelectorAll('.diet-card').forEach(card => {
+                card.classList.remove('diet-card-selected');
+                const iconDiv = card.querySelector('div');
+                iconDiv.classList.remove('bg-primary-container', 'text-on-primary');
+                iconDiv.classList.add('bg-surface-container-high');
+            });
+            
+            // Add to selected
+            element.classList.add('diet-card-selected');
+            const newIconDiv = element.querySelector('div');
+            newIconDiv.classList.add('bg-primary-container', 'text-on-primary');
+            newIconDiv.classList.remove('bg-surface-container-high');
+
+            // Feedback (Micro-interaction)
+            element.classList.add('scale-95');
+            setTimeout(() => element.classList.remove('scale-95'), 150);
+        }
+    </script>
+</body></html>

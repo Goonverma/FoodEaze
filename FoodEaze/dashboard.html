@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand" style="display: inline-flex; align-items: center; gap: 10px;"><img
+                    src="../images/menu.png" alt="" style="width: 26px; height: 26px; object-fit: contain;">
+                FoodEaze
+            </div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="menu.html">Order Food</a></li>
+                <li><a href="order-history.html">History</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="user-menu-trigger" onclick="openUserMenu()"><img src="../images/profile.png"
+                        alt="" style="width: 30px; height: 30px; object-fit: contain; display: block; margin: 0 auto 12px auto;">
+                    Account</button>
+                <div id="userMenu"
+                    style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; min-width: 200px;">
+                    <a href="profile.html"
+                        style="display: block; padding: 12px 16px; border-bottom: 1px solid #ddd; text-decoration: none;"><img
+                            src="../images/profile.png" alt=""
+                            style="width: 20px; height: 20px; object-fit: contain; margin-right: 8px;"> Profile</a>
+                    <a href="order-history.html"
+                        style="display: block; padding: 12px 16px; border-bottom: 1px solid #ddd; text-decoration: none;"><img
+                            src="../images/history.png" alt=""
+                            style="width: 20px; height: 20px; object-fit: contain; margin-right: 8px;"> Order
+                        History</a>
+                    <a href="#" onclick="logoutFromDashboard()"
+                        style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;"><img
+                            src="../images/orders.png" alt=""
+                            style="width: 36px; height: 36px; object-fit: contain; display: block;"> Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">FoodEaze</div>
+                <div class="sidebar-subtitle">Patient Portal</div>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item">
+                    <a href="dashboard.html" class="sidebar-nav-link active">
+                        <span class="sidebar-nav-icon"><img src="../images/orders.png" alt=""
+                                style="width: 40px; height: 40px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="menu.html" class="sidebar-nav-link">
+                        <span class="sidebar-nav-icon"><img src="../images/menu.png" alt=""
+                                style="width: 40px; height: 40px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></span>
+                        Browse Menu
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="cart.html" class="sidebar-nav-link">
+                        <span class="sidebar-nav-icon"><img src="../images/cart.png" alt=""
+                                style="width: 40px; height: 40px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></span>
+                        Cart
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="order-status.html" class="sidebar-nav-link">
+                        <span class="sidebar-nav-icon"><img src="../images/track.png" alt=""
+                                style="width: 40px; height: 40px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></span>
+                        Track Order
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="order-history.html" class="sidebar-nav-link">
+                        <span class="sidebar-nav-icon"><img src="../images/history.png" alt=""
+                                style="width: 40px; height: 40px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></span>
+                        Order History
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="diet-preference.html" class="sidebar-nav-link">
+                        <span class="sidebar-nav-icon"><img src="../images/preparing.png" alt=""
+                                style="width: 40px; height: 40px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></span>
+                        Diet Preference
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="profile.html" class="sidebar-nav-link">
+                        <span class="sidebar-nav-icon"><img src="../images/profile.png" alt=""
+                                style="width: 40px; height: 40px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></span>
+                        Profile
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-logout">
+                <button class="btn btn-secondary btn-full" onclick="logoutFromDashboard()">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <div class="content-header">
+                <div>
+                    <h1 class="user-welcome">Welcome!</h1>
+                    <p class="user-details-mini">User data will appear after login</p>
+                </div>
+                <button class="btn btn-secondary" onclick="openUserMenu()">Profile Settings</button>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="dashboard-grid" id="statsContainer">
+                <div class="stat-card primary">
+                    <div class="stat-icon"><img src="../images/orders.png" alt=""
+                            style="width: 115px; height: 115px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></div>
+                    <div class="stat-label">Total Orders</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-icon"><img src="../images/pending.png" alt=""
+                            style="width: 115px; height: 115px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></div>
+                    <div class="stat-label">Pending Orders</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card info">
+                    <div class="stat-icon"><img src="../images/preparing.png" alt=""
+                            style="width: 115px; height: 115px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></div>
+                    <div class="stat-label">Preparing</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-icon"><img src="../images/delivered.png" alt=""
+                            style="width: 115px; height: 115px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></div>
+                    <div class="stat-label">Delivered Orders</div>
+                    <div class="stat-value">0</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <h3 style="margin-top: 40px; margin-bottom: 20px; color: #003366;">Quick Actions</h3>
+            <div class="quick-actions">
+                <a href="menu.html" class="action-button">
+                    <div class="action-icon"><img src="../images/menu.png" alt=""
+                            style="width: 100px; height: 100px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></div>
+                    <div class="action-label">Browse Menu</div>
+                </a>
+                <a href="order-status.html" class="action-button">
+                    <div class="action-icon"><img src="../images/track.png" alt=""
+                            style="width: 100px; height: 100px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></div>
+                    <div class="action-label">Track Orders</div>
+                </a>
+                <a href="order-history.html" class="action-button">
+                    <div class="action-icon"><img src="../images/history.png" alt=""
+                            style="width: 100px; height: 100px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></div>
+                    <div class="action-label">Order History</div>
+                </a>
+                <a href="profile.html" class="action-button">
+                    <div class="action-icon"><img src="../images/profile.png" alt=""
+                            style="width: 100px; height: 100px; object-fit: contain; display: block; margin: 0 auto 12px auto;"></div>
+                    <div class="action-label">My Profile</div>
+                </a>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="recent-orders" style="margin-top: 40px;">
+                <div class="section-header">
+                    <h3>Recent Orders</h3>
+                    <a href="order-history.html" class="btn btn-small btn-primary">View All</a>
+                </div>
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Items</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6" class="text-center p-lg">
+                                No orders available<br>
+                                <span style="color: #6c757d;">Your Firestore order history will appear here.</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Info Section -->
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px; margin-bottom: 40px;">
+                <div class="card">
+                    <h4><img src="../images/tips-ordering.png" alt=""
+                            style="width: 80px; height: 80px; object-fit: contain; display: block; margin: 0 auto 12px auto;">
+                        Tips for Ordering</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;">• Browse our diverse menu and select items</li>
+                        <li style="margin-bottom: 10px;">• Add items to your cart</li>
+                        <li style="margin-bottom: 10px;">• Review your order and proceed to checkout</li>
+                        <li style="margin-bottom: 10px;">• Track your order in real-time</li>
+                        <li>• Enjoy your meal delivered to your room</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4><img src="../images/preparing.png" alt=""
+                            style="width: 80px; height: 80px; object-fit: contain; display: block; margin: 0 auto 12px auto;">
+                        Diet Preferences</h4>
+                    <p>Customize your diet preferences to receive personalized meal recommendations suited to your
+                        health needs.</p>
+                    <a href="diet-preference.html" class="btn btn-small btn-primary" style="margin-top: 10px;">Update
+                        Preferences</a>
+                </div>
+
+                <div class="card">
+                    <h4><img src="../images/need-help.png" alt=""
+                            style="width: 80px; height: 80px; object-fit: contain; display: block; margin: 0 auto 12px auto;">
+                        Need Help?</h4>
+                    <p>Having trouble placing an order? Our support team is here to help.</p>
+                    <p style="font-size: 0.9rem; color: #6c757d;">
+                        <strong>Contact:</strong> support@foodeaze.com<br>
+                        <strong>Phone:</strong> +91-xxx-xxx-xxxx
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FoodEaze</h4>
+                    <p>Making hospital food ordering easy and convenient for patients.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="order-history.html">Orders</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: support@foodeaze.com<br>Phone: +91-xxx-xxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodEaze - CCL Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/orders.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

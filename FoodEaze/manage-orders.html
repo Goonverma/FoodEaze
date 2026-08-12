@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Orders - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze - Staff Portal</div>
+            <ul class="nav-menu">
+                <li><a href="staff-dashboard.html">Dashboard</a></li>
+                <li><a href="manage-orders.html" class="active">Manage Orders</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="user-menu-trigger" onclick="toggleUserMenu()">👤 Staff</button>
+                <div id="userMenu"
+                    style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; min-width: 200px;">
+                    <a href="#" onclick="logoutFromDashboard()"
+                        style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-menu">
+                <a href="staff-dashboard.html" class="sidebar-item">
+                    <span>📊 Dashboard</span>
+                </a>
+                <a href="manage-orders.html" class="sidebar-item active">
+                    <span>📋 Manage Orders</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="content-header">
+                <h1>Manage Orders</h1>
+                <p>View and manage all orders in the system</p>
+            </div>
+
+            <!-- Filters -->
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                <input type="text" id="searchBox" placeholder="Search Order ID or Patient Name..."
+                    onkeyup="filterOrders()"
+                    style="flex: 1; min-width: 200px; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+
+                <select id="statusFilter" onchange="filterOrders()"
+                    style="padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                    <option value="">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Ready">Ready</option>
+                    <option value="Delivered">Delivered</option>
+                </select>
+
+                <button class="btn btn-primary" onclick="refreshOrders()">🔄 Refresh</button>
+                <button class="btn btn-accent" onclick="exportToCSV()">📊 Export CSV</button>
+                <button class="btn btn-secondary" onclick="printReport()">🖨️ Print</button>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="recent-orders">
+                <table class="orders-table" id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Patient Name</th>
+                            <th>Ward/Room</th>
+                            <th>Contact</th>
+                            <th>Items</th>
+                            <th>Qty</th>
+                            <th>Order Time</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <tr>
+                            <td colspan="10" class="text-center p-lg">
+                                <div class="spinner"></div> Loading orders...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Notification -->
+            <div id="notificationContainer"></div>
+        </main>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderDetailsModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="card" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>Order Details</h3>
+                <button type="button" onclick="closeModal()"
+                    style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+            </div>
+            <div id="orderDetailsContent"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FoodEaze</h4>
+                    <p>Hospital Food Ordering & Queue Management</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Staff Portal</h4>
+                    <ul>
+                        <li><a href="staff-dashboard.html">Dashboard</a></li>
+                        <li><a href="manage-orders.html">Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: support@foodeaze.com<br>Phone: +91-xxx-xxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodEaze - CCL Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/orders.js"></script>
+    <script src="js/staff.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        let allOrders = [];
+
+        // Initialize page
+        window.addEventListener('load', () => {
+            loadAllOrders();
+            setupAuthRedirects();
+            // Auto-refresh every 15 seconds
+            setInterval(() => loadAllOrders(), 15000);
+        });
+
+        // Load all orders
+        async function loadAllOrders() {
+            const result = await getAllOrders();
+
+            if (result.success) {
+                allOrders = result.orders;
+                renderOrders(allOrders);
+            }
+        }
+
+        // Render orders
+        function renderOrders(orders) {
+            const tbody = document.getElementById('ordersTableBody');
+
+            if (orders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" class="text-center p-lg">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">📋</div>
+                            <p>No orders yet</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td class="order-id">${order.orderId}</td>
+                    <td>${order.userName}</td>
+                    <td>${order.wardNumber} / ${order.roomNumber}</td>
+                    <td>${order.phone}</td>
+                    <td>${order.items.map(i => i.name).join(', ')}</td>
+                    <td>${order.items.reduce((sum, i) => sum + i.quantity, 0)}</td>
+                    <td>${formatOrderDate(order.timestamp)}</td>
+                    <td>
+                        <select onchange="updateOrderStatus('${order.orderId}', this.value)" style="padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="${order.status}" selected>${order.status}</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Preparing">Preparing</option>
+                            <option value="Ready">Ready</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </td>
+                    <td>₹${order.total}</td>
+                    <td>
+                        <button class="btn btn-small btn-primary" onclick="viewOrderDetails('${order.orderId}')">View</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // View order details
+        function viewOrderDetails(orderId) {
+            const order = allOrders.find(o => o.orderId === orderId);
+            if (!order) return;
+
+            const itemsHTML = order.items.map(item => `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>₹${item.price}</td>
+                    <td>₹${item.total}</td>
+                </tr>
+            `).join('');
+
+            const content = `
+                <div style="padding: 20px;">
+                    <div class="order-detail-row">
+                        <strong>Order ID:</strong>
+                        <span>${order.orderId}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <strong>Patient:</strong>
+                        <span>${order.userName}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <strong>Contact:</strong>
+                        <span>${order.phone}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <strong>Ward/Room:</strong>
+                        <span>${order.wardNumber} / ${order.roomNumber}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <strong>Status:</strong>
+                        <span class="order-status ${getOrderStatusBadgeClass(order.status)}">${order.status}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <strong>Order Date:</strong>
+                        <span>${formatOrderDate(order.timestamp)}</span>
+                    </div>
+
+                    <h4 style="margin-top: 20px; margin-bottom: 10px;">Items:</h4>
+                    <table class="orders-table" style="margin-bottom: 20px;">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${itemsHTML}
+                        </tbody>
+                    </table>
+
+                    <div class="order-detail-row">
+                        <strong>Subtotal:</strong>
+                        <span>₹${order.subtotal}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <strong>Discount:</strong>
+                        <span>-₹${order.discountAmount || 0}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <strong>Taxes:</strong>
+                        <span>₹${order.taxes}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <strong>Total:</strong>
+                        <span style="font-weight: bold; color: #003366; font-size: 1.2em;">₹${order.total}</span>
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; gap: 10px;">
+                        <button class="btn btn-primary" onclick="closeModal()">Close</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('orderDetailsContent').innerHTML = content;
+            document.getElementById('orderDetailsModal').style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('orderDetailsModal').style.display = 'none';
+        }
+
+        // Filter orders
+        function filterOrders() {
+            const searchQuery = document.getElementById('searchBox').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            const filtered = allOrders.filter(order => {
+                const matchesSearch = order.orderId.toLowerCase().includes(searchQuery) ||
+                    order.userName.toLowerCase().includes(searchQuery);
+                const matchesStatus = !statusFilter || order.status === statusFilter;
+
+                return matchesSearch && matchesStatus;
+            });
+
+            renderOrders(filtered);
+        }
+
+        // Refresh orders
+        function refreshOrders() {
+            loadAllOrders();
+            showNotification('Orders refreshed', 'success');
+        }
+
+        // Update order status
+        async function updateOrderStatus(orderId, newStatus) {
+            if (newStatus === '') return;
+
+            const result = await updateOrderStatusStaff(orderId, newStatus);
+
+            if (result.success) {
+                showNotification(`Order updated to ${newStatus}`, 'success');
+                loadAllOrders();
+            } else {
+                showNotification(result.message, 'danger');
+            }
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            const csv = [
+                ['Order ID', 'Patient Name', 'Ward', 'Room', 'Contact', 'Items', 'Qty', 'Status', 'Total', 'Date'],
+                ...allOrders.map(order => [
+                    order.orderId,
+                    order.userName,
+                    order.wardNumber,
+                    order.roomNumber,
+                    order.phone,
+                    order.items.map(i => i.name).join('; '),
+                    order.items.reduce((sum, i) => sum + i.quantity, 0),
+                    order.status,
+                    order.total,
+                    formatOrderDate(order.timestamp)
+                ])
+            ];
+
+            const csvContent = csv.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `orders-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+
+            showNotification('CSV exported successfully', 'success');
+        }
+
+        // Print report
+        function printReport() {
+            const printWindow = window.open('', '', 'height=600,width=800');
+            const html = `
+                <html>
+                <head>
+                    <title>Orders Report</title>
+                    <style>
+                        body { font-family: Arial; margin: 20px; }
+                        h1 { color: #003366; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background: #003366; color: white; }
+                        .footer { margin-top: 40px; text-align: center; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <h1>FoodEaze - Orders Report</h1>
+                    <p>Generated on: ${new Date().toLocaleString()}</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Patient</th>
+                                <th>Ward/Room</th>
+                                <th>Items</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${allOrders.map(order => `
+                                <tr>
+                                    <td>${order.orderId}</td>
+                                    <td>${order.userName}</td>
+                                    <td>${order.wardNumber}/${order.roomNumber}</td>
+                                    <td>${order.items.map(i => i.name).join(', ')}</td>
+                                    <td>${order.status}</td>
+                                    <td>₹${order.total}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    <div class="footer">
+                        <p>&copy; 2026 FoodEaze - CCL Hospital</p>
+                    </div>
+                </body>
+                </html>
+            `;
+            printWindow.document.write(html);
+            printWindow.document.close();
+            printWindow.print();
+
+            showNotification('Print dialog opened', 'success');
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} show`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '100px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.maxWidth = '400px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(alertDiv);
+
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Close user menu on outside click
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('userMenu');
+            if (!e.target.closest('.user-menu-trigger') && !e.target.closest('#userMenu')) {
+                menu.style.display = 'none';
+            }
+        });
+
+        // Close modal on outside click
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('orderDetailsModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+
+</html>

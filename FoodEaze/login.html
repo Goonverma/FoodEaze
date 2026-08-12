@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #003366 0%, #0066cc 100%);
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .auth-card h1 {
+            margin-bottom: 10px;
+        }
+
+        .auth-card p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #003366;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #003366;
+            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+        }
+
+        .form-remember {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-remember input {
+            width: auto;
+            margin-right: 10px;
+            margin-bottom: 0;
+        }
+
+        .form-remember label {
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+
+        .form-error {
+            display: none;
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .login-btn {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.95rem;
+        }
+
+        .auth-footer a {
+            color: #003366;
+            font-weight: 600;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #6c757d;
+        }
+
+        .success-message {
+            display: none;
+            padding: 15px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            color: #155724;
+            margin-bottom: 20px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="register.html" class="btn btn-accent">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">🍽️</div>
+                <h1>Welcome Back</h1>
+                <p>Sign in to FoodEaze</p>
+            </div>
+
+            <div class="success-message" id="successMessage"></div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <div class="form-error" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <div class="form-error" id="passwordError"></div>
+                </div>
+
+                <div class="form-remember">
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary login-btn" id="loginBtn">Sign In</button>
+            </form>
+
+            <div class="divider">
+                or
+            </div>
+
+            <a href="register.html" class="btn btn-secondary btn-full">Create New Account</a>
+
+            <div class="auth-footer">
+                <p><a href="#" onclick="handleForgotPassword(event)">Forgot your password?</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <button type="button" class="modal-close" onclick="closeModal('forgotPasswordModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Enter your email address and we'll send you a password reset link.</p>
+                <div class="form-group">
+                    <label for="resetEmail">Email Address</label>
+                    <input type="email" id="resetEmail" placeholder="Enter your email">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    onclick="closeModal('forgotPasswordModal')">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="sendResetEmail()">Send Reset Link</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        // Get remembered email if available
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('rememberMe') === 'true') {
+                const email = localStorage.getItem('userEmail');
+                if (email) {
+                    document.getElementById('email').value = email;
+                    document.getElementById('rememberMe').checked = true;
+                }
+            }
+            setupAuthRedirects();
+        });
+
+        // Handle login
+        async function handleLogin(event) {
+            event.preventDefault();
+            const form = document.getElementById('loginForm');
+            clearFormErrors(form);
+
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            const email = sanitizeString(emailInput.value).toLowerCase();
+            const password = passwordInput.value;
+
+            const errors = {};
+            if (!email) {
+                errors.email = 'Email is required';
+            } else if (!validateEmail(email)) {
+                errors.email = 'Please enter a valid email address';
+            }
+
+            if (!password) {
+                errors.password = 'Password is required';
+            }
+
+            const inputs = {
+                email: emailInput,
+                password: passwordInput
+            };
+
+            Object.keys(inputs).forEach(field => {
+                const input = inputs[field];
+                if (errors[field]) {
+                    setFieldState(input, false, errors[field]);
+                } else {
+                    setFieldState(input, true, '');
+                }
+            });
+
+            if (Object.keys(errors).length > 0) {
+                focusFirstInvalidField(form);
+                return;
+            }
+
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Signing in...';
+
+            const result = await loginUser(email, password, rememberMe);
+
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Sign In';
+
+            if (result.success) {
+                const successMsg = document.getElementById('successMessage');
+                successMsg.textContent = 'Login successful! Redirecting to dashboard...';
+                successMsg.classList.add('show');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+            } else {
+                showNotification(result.message, 'danger');
+            }
+        }
+
+        // Handle forgot password
+        function handleForgotPassword(event) {
+            if (event) {
+                event.preventDefault();
+            }
+            openModal('forgotPasswordModal');
+        }
+
+        // Send reset email
+        async function sendResetEmail() {
+            const email = document.getElementById('resetEmail').value.trim();
+
+            if (!email) {
+                showNotification('Please enter your email address', 'warning');
+                return;
+            }
+
+            const result = await sendPasswordResetEmail(email);
+
+            if (result.success) {
+                showNotification(result.message, 'success');
+                closeModal('forgotPasswordModal');
+                document.getElementById('resetEmail').value = '';
+            } else {
+                showNotification(result.message, 'danger');
+            }
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('show');
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('show');
+            }
+        }
+
+        // Close modal on background click
+        const modal = document.getElementById('forgotPasswordModal');
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal('forgotPasswordModal');
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

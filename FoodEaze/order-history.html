@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="menu.html">Order Food</a></li>
+                <li><a href="order-history.html" class="active">History</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="btn btn-accent">🛒 Cart</a>
+                <button class="user-menu-trigger" onclick="toggleUserMenu()">👤 Account</button>
+                <div id="userMenu"
+                    style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; min-width: 200px;">
+                    <a href="profile.html"
+                        style="display: block; padding: 12px 16px; border-bottom: 1px solid #ddd; text-decoration: none;">👤
+                        Profile</a>
+                    <a href="#" onclick="logoutFromDashboard()"
+                        style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="dashboard-wrapper" style="grid-template-columns: 1fr;">
+        <main class="dashboard-content">
+            <div class="content-header">
+                <h1>Order History</h1>
+            </div>
+
+            <!-- Filters -->
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <select id="statusFilter" onchange="filterOrders()"
+                    style="padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                    <option value="">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Ready">Ready</option>
+                    <option value="Delivered">Delivered</option>
+                </select>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="recent-orders">
+                <table class="orders-table" id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Items</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <tr>
+                            <td colspan="7" class="text-center p-lg">
+                                <div class="spinner"></div>
+                                Loading orders...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Notification -->
+            <div id="notificationContainer"></div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FoodEaze</h4>
+                    <p>Making hospital food ordering easy and convenient.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="order-history.html">Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: support@foodeaze.com<br>Phone: +91-xxx-xxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodEaze - CCL Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/orders.js"></script>
+    <script src="js/menu.js"></script>
+    <script type="module" src="js/cart.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        let allOrders = [];
+
+        // Initialize page
+        window.addEventListener('load', async () => {
+            await setupAuthRedirects();
+            loadOrders();
+        });
+
+        // Load orders
+        async function loadOrders() {
+            const result = await getUserOrders();
+
+            if (result.success) {
+                allOrders = result.orders;
+                renderOrders(allOrders);
+            } else {
+                renderNoOrders();
+            }
+        }
+
+        // Render orders table
+        function renderOrders(orders) {
+            const tbody = document.getElementById('ordersTableBody');
+
+            if (orders.length === 0) {
+                renderNoOrders();
+                return;
+            }
+
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td class="order-id">${order.orderId}</td>
+                    <td>${formatOrderDate(order.timestamp)}</td>
+                    <td>${order.items.map(i => i.name).join(', ')}</td>
+                    <td>${order.items.reduce((sum, i) => sum + i.quantity, 0)}</td>
+                    <td>₹${order.total}</td>
+                    <td><span class="order-status ${getOrderStatusBadgeClass(order.status)}">${order.status}</span></td>
+                    <td><a href="order-status.html?id=${order.orderId}" class="btn btn-small btn-primary">Track</a></td>
+                </tr>
+            `).join('');
+        }
+
+        // Render no orders message
+        function renderNoOrders() {
+            const tbody = document.getElementById('ordersTableBody');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="text-center p-lg">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">📋</div>
+                        <h3>No orders yet</h3>
+                        <p>Start ordering from our menu!</p>
+                        <a href="menu.html" class="btn btn-primary" style="margin-top: 20px;">Browse Menu</a>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Filter orders
+        function filterOrders() {
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            if (!statusFilter) {
+                renderOrders(allOrders);
+            } else {
+                const filtered = allOrders.filter(order => order.status === statusFilter);
+                renderOrders(filtered);
+            }
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Close user menu on outside click
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('userMenu');
+            if (!e.target.closest('.user-menu-trigger') && !e.target.closest('#userMenu')) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

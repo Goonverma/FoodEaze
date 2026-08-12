@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        :root {
+            --sidebar-bg: #0f2f4f;
+            --sidebar-text: #e2e8f0;
+            --card-bg: #fff;
+            --border: #e5e7eb;
+            --muted: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #1f2937;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .admin-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, var(--sidebar-bg) 0%, #163f63 100%);
+            color: var(--sidebar-text);
+            padding: 22px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .sidebar a {
+            color: var(--sidebar-text);
+            text-decoration: none;
+            padding: 12px 14px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: rgba(255, 255, 255, 0.16);
+            color: #fff;
+        }
+
+        .main-panel {
+            flex: 1;
+            padding: 24px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .stat-card {
+            padding: 18px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #f8fbff 0%, #eef5ff 100%);
+            border: 1px solid #dbeafe;
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #003366;
+        }
+
+        .stat-card .label {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #003366;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .badge.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge.preparing {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .badge.ready {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge.delivered {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge.cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .toolbar input,
+        .toolbar select,
+        .toolbar textarea {
+            min-width: 160px;
+        }
+
+        .panel-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 16px;
+        }
+
+        .chart-card {
+            min-height: 260px;
+        }
+
+        .empty-state {
+            padding: 24px;
+            text-align: center;
+            color: var(--muted);
+            background: #fafafa;
+            border-radius: 12px;
+        }
+
+        .inline-actions button,
+        .inline-actions select {
+            margin-right: 6px;
+        }
+
+        .pill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .pill-list span {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #eef2ff;
+            color: #4338ca;
+            font-size: 0.86rem;
+        }
+
+        @media (max-width: 960px) {
+            .admin-shell {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-shell">
+        <aside class="sidebar">
+            <h2>🍽️ FoodEaze Admin</h2>
+            <a href="#dashboard" class="active">🏠 Dashboard</a>
+            <a href="#patients">👥 Patients</a>
+            <a href="#orders">📦 Orders</a>
+            <a href="#menu">🍽 Food Menu</a>
+            <a href="#analytics">📊 Analytics</a>
+            <a href="#wards">🏥 Ward Management</a>
+            <a href="#reports">📋 Reports</a>
+            <a href="#settings">⚙ Settings</a>
+            <a href="#logout" id="logoutLink">🚪 Logout</a>
+        </aside>
+
+        <main class="main-panel">
+            <div class="topbar">
+                <div>
+                    <h1>Hospital Admin Panel</h1>
+                    <p>Monitor patients, kitchen operations, and orders in real time.</p>
+                </div>
+                <div class="card" id="adminWelcomeCard">Loading profile...</div>
+            </div>
+
+            <section id="dashboard">
+                <div class="stats-grid" id="statsGrid"></div>
+                <div class="panel-grid">
+                    <div class="card chart-card">
+                        <div class="section-title">
+                            <h3>Latest Orders</h3>
+                            <span class="badge">Live</span>
+                        </div>
+                        <div id="latestOrdersContainer"></div>
+                    </div>
+                    <div class="card chart-card">
+                        <div class="section-title">
+                            <h3>Notifications</h3>
+                            <span class="badge">New</span>
+                        </div>
+                        <div id="notificationsContainer"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="patients" style="margin-top: 24px; display:none;">
+                <div class="card">
+                    <div class="section-title">
+                        <h3>Patient Management</h3>
+                        <span class="badge">Firestore</span>
+                    </div>
+                    <div class="toolbar">
+                        <input type="text" id="patientSearch" placeholder="Search patient">
+                    </div>
+                    <div id="patientsContainer"></div>
+                </div>
+            </section>
+
+            <section id="orders" style="margin-top: 24px; display:none;">
+                <div class="card">
+                    <div class="section-title">
+                        <h3>Order Management</h3>
+                        <span class="badge">Realtime</span>
+                    </div>
+                    <div id="ordersContainer"></div>
+                </div>
+            </section>
+
+            <section id="menu" style="margin-top: 24px; display:none;">
+                <div class="card">
+                    <div class="section-title">
+                        <h3>Food Menu Management</h3>
+                        <button class="btn btn-primary" id="showMenuFormBtn">Add Food</button>
+                    </div>
+                    <form id="menuForm" style="display:none; margin-bottom: 16px;">
+                        <input type="hidden" id="menuItemId">
+                        <div class="toolbar">
+                            <input type="text" id="foodName" placeholder="Food Name" required>
+                            <input type="text" id="foodCategory" placeholder="Category" required>
+                            <input type="number" id="foodPrice" placeholder="Price" required>
+                            <input type="text" id="foodImage" placeholder="Image URL">
+                        </div>
+                        <textarea id="foodDescription" placeholder="Description"></textarea>
+                        <div class="toolbar">
+                            <select id="foodAvailability">
+                                <option value="true">Available</option>
+                                <option value="false">Disabled</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary">Save Food</button>
+                            <button type="button" class="btn btn-secondary" id="cancelMenuFormBtn">Cancel</button>
+                        </div>
+                    </form>
+                    <div id="menuContainer"></div>
+                </div>
+            </section>
+
+            <section id="analytics" style="margin-top: 24px; display:none;">
+                <div class="card">
+                    <div class="section-title">
+                        <h3>Analytics</h3>
+                        <span class="badge">Insights</span>
+                    </div>
+                    <div id="analyticsContainer"></div>
+                </div>
+            </section>
+
+            <section id="wards" style="margin-top: 24px; display:none;">
+                <div class="card">
+                    <div class="section-title">
+                        <h3>Ward Management</h3>
+                        <span class="badge">Ward-wise</span>
+                    </div>
+                    <div id="wardsContainer"></div>
+                </div>
+            </section>
+
+            <section id="reports" style="margin-top: 24px; display:none;">
+                <div class="card">
+                    <div class="section-title">
+                        <h3>Reports</h3>
+                        <span class="badge">Printable</span>
+                    </div>
+                    <div class="toolbar">
+                        <select id="reportType">
+                            <option value="daily">Daily Report</option>
+                            <option value="weekly">Weekly Report</option>
+                            <option value="monthly">Monthly Report</option>
+                        </select>
+                        <button class="btn btn-primary" id="printReportBtn">Print Report</button>
+                    </div>
+                    <div id="reportsContainer"></div>
+                </div>
+            </section>
+
+            <section id="settings" style="margin-top: 24px; display:none;">
+                <div class="card">
+                    <div class="section-title">
+                        <h3>Admin Settings</h3>
+                    </div>
+                    <div id="settingsContainer"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+
+</html>

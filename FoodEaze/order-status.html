@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Order - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="menu.html">Order Food</a></li>
+                <li><a href="order-history.html">History</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="btn btn-accent">🛒 Cart</a>
+                <button class="user-menu-trigger" onclick="toggleUserMenu()">👤 Account</button>
+                <div id="userMenu"
+                    style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; min-width: 200px;">
+                    <a href="profile.html"
+                        style="display: block; padding: 12px 16px; border-bottom: 1px solid #ddd; text-decoration: none;">👤
+                        Profile</a>
+                    <a href="#" onclick="logoutFromDashboard()"
+                        style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="dashboard-wrapper" style="grid-template-columns: 1fr;">
+        <main class="dashboard-content">
+            <div class="content-header">
+                <h1>Track Your Order</h1>
+            </div>
+
+            <div id="orderTracking" style="margin-bottom: 40px;">
+                <div class="flex-center p-lg">
+                    <div class="spinner spinner-lg"></div>
+                    <p class="ml-md">Loading order details...</p>
+                </div>
+            </div>
+
+            <!-- Notification -->
+            <div id="notificationContainer"></div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FoodEaze</h4>
+                    <p>Making hospital food ordering easy and convenient.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="order-history.html">Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: support@foodeaze.com<br>Phone: +91-xxx-xxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodEaze - CCL Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/orders.js"></script>
+    <script src="js/menu.js"></script>
+    <script type="module" src="js/cart.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        // Initialize page
+        window.addEventListener('load', async () => {
+            await setupAuthRedirects();
+            loadOrderTracking();
+        });
+
+        // Load order tracking
+        async function loadOrderTracking() {
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('id');
+
+            if (!orderId) {
+                showOrders();
+                return;
+            }
+
+            const result = await getOrderById(orderId);
+
+            if (result.success) {
+                renderOrderTracking(result.order);
+                // Auto-refresh every 10 seconds
+                setInterval(() => loadOrderTracking(), 10000);
+            } else {
+                showNotification('Order not found', 'danger');
+                showOrders();
+            }
+        }
+
+        // Render order tracking UI
+        function renderOrderTracking(order) {
+            const container = document.getElementById('orderTracking');
+
+            const statuses = ['Pending', 'Preparing', 'Ready', 'Delivered'];
+            const currentStatusIndex = statuses.indexOf(order.status);
+
+            const timelineHTML = statuses.map((status, index) => `
+                <div class="timeline-step ${index <= currentStatusIndex ? 'completed' : ''} ${status === order.status ? 'active' : ''}">
+                    <div class="step-circle">${index + 1}</div>
+                    <div class="step-label">${status}</div>
+                </div>
+            `).join('');
+
+            const itemsHTML = order.items.map(item => `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>₹${item.price}</td>
+                    <td>₹${item.total}</td>
+                </tr>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Order #${order.orderId}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="order-detail-row">
+                            <span class="order-detail-label">Order Date:</span>
+                            <span>${formatOrderDate(order.timestamp)}</span>
+                        </div>
+                        <div class="order-detail-row">
+                            <span class="order-detail-label">Status:</span>
+                            <span class="order-status ${getOrderStatusBadgeClass(order.status)}">${order.status}</span>
+                        </div>
+                        <div class="order-detail-row">
+                            <span class="order-detail-label">Total Amount:</span>
+                            <span style="font-weight: bold; color: #003366;">₹${order.total}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-header">
+                        <h4>Order Status Timeline</h4>
+                    </div>
+                    <div style="padding: 40px 20px;">
+                        <div class="timeline-steps">
+                            ${timelineHTML}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-header">
+                        <h4>Order Items</h4>
+                    </div>
+                    <table class="orders-table" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${itemsHTML}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-header">
+                        <h4>Delivery Details</h4>
+                    </div>
+                    <div class="order-detail-row">
+                        <span class="order-detail-label">Ward:</span>
+                        <span>${order.wardNumber}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <span class="order-detail-label">Room:</span>
+                        <span>${order.roomNumber}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <span class="order-detail-label">Estimated Delivery:</span>
+                        <span>${order.estimatedDeliveryTime} minutes</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <a href="order-history.html" class="btn btn-primary">Back to Orders</a>
+                    <a href="menu.html" class="btn btn-secondary">Order More</a>
+                </div>
+            `;
+        }
+
+        // Show orders list
+        async function showOrders() {
+            const result = await getUserOrders();
+
+            if (result.success && result.orders.length > 0) {
+                const container = document.getElementById('orderTracking');
+                container.innerHTML = `
+                    <h3>Select an order to track:</h3>
+                    <div style="margin-top: 20px;">
+                        ${result.orders.map(order => `
+                            <div class="card" style="cursor: pointer; margin-bottom: 15px;" onclick="window.location.href='order-status.html?id=${order.orderId}'">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <strong>${order.orderId}</strong><br>
+                                        <small>${formatOrderDate(order.timestamp)}</small>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div class="order-status ${getOrderStatusBadgeClass(order.status)}">${order.status}</div>
+                                        <strong style="display: block; margin-top: 5px;">₹${order.total}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                const container = document.getElementById('orderTracking');
+                container.innerHTML = `
+                    <div class="card text-center p-lg">
+                        <h3>No orders yet</h3>
+                        <p>Start ordering from our menu to track your orders here.</p>
+                        <a href="menu.html" class="btn btn-primary" style="margin-top: 20px;">Browse Menu</a>
+                    </div>
+                `;
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} show`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '100px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.maxWidth = '400px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(alertDiv);
+
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Close user menu on outside click
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('userMenu');
+            if (!e.target.closest('.user-menu-trigger') && !e.target.closest('#userMenu')) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

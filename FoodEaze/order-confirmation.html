@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="menu.html">Order Food</a></li>
+                <li><a href="order-history.html">History</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="btn btn-accent">🛒 Cart</a>
+                <button class="user-menu-trigger" onclick="toggleUserMenu()">👤 Account</button>
+                <div id="userMenu"
+                    style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; min-width: 200px;">
+                    <a href="profile.html"
+                        style="display: block; padding: 12px 16px; border-bottom: 1px solid #ddd; text-decoration: none;">👤
+                        Profile</a>
+                    <a href="#" onclick="logoutFromDashboard()"
+                        style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="dashboard-wrapper" style="grid-template-columns: 1fr;">
+        <main class="dashboard-content">
+            <div id="confirmationContent"></div>
+
+            <!-- Notification -->
+            <div id="notificationContainer"></div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FoodEaze</h4>
+                    <p>Making hospital food ordering easy and convenient.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="order-history.html">Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: support@foodeaze.com<br>Phone: +91-xxx-xxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodEaze - CCL Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/orders.js"></script>
+    <script src="js/menu.js"></script>
+    <script type="module" src="js/cart.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        // Initialize page
+        window.addEventListener('load', () => {
+            displayConfirmation();
+            setupAuthRedirects();
+        });
+
+        // Display confirmation
+        async function displayConfirmation() {
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('id');
+
+            if (!orderId) {
+                showNoOrder();
+                return;
+            }
+
+            const result = await getOrderById(orderId);
+
+            if (result.success) {
+                renderConfirmation(result.order);
+            } else {
+                showNoOrder();
+            }
+        }
+
+        // Render confirmation
+        function renderConfirmation(order) {
+            const container = document.getElementById('confirmationContent');
+
+            const itemsHTML = order.items.map(item => `
+                <div class="order-summary-item">
+                    <div style="flex: 1;">
+                        <strong>${item.name}</strong><br>
+                        <small>Qty: ${item.quantity}</small>
+                    </div>
+                    <div style="text-align: right;">
+                        <strong>₹${item.total}</strong>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+                    <h1 style="color: #28a745;">Order Confirmed!</h1>
+                    <p style="font-size: 1.1rem; color: #6c757d;">Your delicious meal is being prepared</p>
+                </div>
+
+                <div class="card" style="margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    <div class="card-header" style="background: linear-gradient(135deg, #003366, #0066cc); color: white;">
+                        <h2 style="margin: 0; text-align: center;">Order #${order.orderId}</h2>
+                    </div>
+
+                    <div style="padding: 30px;">
+                        <div class="order-detail-row">
+                            <span class="order-detail-label">Order Date & Time:</span>
+                            <span>${formatOrderDate(order.timestamp)}</span>
+                        </div>
+
+                        <div class="order-detail-row">
+                            <span class="order-detail-label">Delivery Location:</span>
+                            <span>Ward <strong>${order.wardNumber}</strong>, Room <strong>${order.roomNumber}</strong></span>
+                        </div>
+
+                        <div class="order-detail-row">
+                            <span class="order-detail-label">Payment Method:</span>
+                            <span>${order.paymentMethod}</span>
+                        </div>
+
+                        <div class="order-detail-row">
+                            <span class="order-detail-label">Estimated Delivery:</span>
+                            <span><strong>${order.estimatedDeliveryTime || 45} minutes</strong></span>
+                        </div>
+
+                        <hr style="margin: 20px 0;">
+
+                        <h4 style="margin-bottom: 15px;">Order Items</h4>
+                        ${itemsHTML}
+
+                        <hr style="margin: 20px 0;">
+
+                        <div class="order-detail-row">
+                            <span>Subtotal:</span>
+                            <span>₹${order.subtotal}</span>
+                        </div>
+                        <div class="order-detail-row">
+                            <span>Discount:</span>
+                            <span>-₹${order.discountAmount || 0}</span>
+                        </div>
+                        <div class="order-detail-row">
+                            <span>Taxes (5%):</span>
+                            <span>₹${order.taxes}</span>
+                        </div>
+                        <div class="order-detail-row" style="border-top: 2px solid #ddd; padding-top: 15px;">
+                            <strong style="font-size: 1.2rem;">Total Amount:</strong>
+                            <strong style="font-size: 1.2rem; color: #003366;">₹${order.total}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="max-width: 600px; margin-left: auto; margin-right: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 10px;">📍</div>
+                        <h4>Track Your Order</h4>
+                        <p style="color: #6c757d; margin-bottom: 15px;">Monitor real-time updates</p>
+                        <a href="order-status.html?id=${order.orderId}" class="btn btn-primary" style="width: 100%; display: block;">Track Order</a>
+                    </div>
+
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 10px;">📋</div>
+                        <h4>View History</h4>
+                        <p style="color: #6c757d; margin-bottom: 15px;">See all your orders</p>
+                        <a href="order-history.html" class="btn btn-secondary" style="width: 100%; display: block;">Order History</a>
+                    </div>
+                </div>
+
+                <div style="max-width: 600px; margin-left: auto; margin-right: auto; background: #f0f7ff; border-left: 4px solid #003366; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                    <h4 style="margin-top: 0;">📧 Confirmation Sent</h4>
+                    <p>A confirmation email has been sent to <strong>${order.email}</strong></p>
+                    <p style="margin-bottom: 0; color: #6c757d;">You can track your order anytime using your Order ID</p>
+                </div>
+
+                <div style="max-width: 600px; margin-left: auto; margin-right: auto; text-align: center;">
+                    <h4>What's Next?</h4>
+                    <div style="display: grid; gap: 10px; text-align: left; background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                        <div style="display: flex; gap: 10px;">
+                            <span style="flex-shrink: 0; width: 24px; height: 24px; background: #003366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</span>
+                            <span>Your order is being confirmed by the kitchen</span>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <span style="flex-shrink: 0; width: 24px; height: 24px; background: #003366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</span>
+                            <span>Food preparation will begin shortly</span>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <span style="flex-shrink: 0; width: 24px; height: 24px; background: #003366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</span>
+                            <span>Your meal will be delivered within the estimated time</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="max-width: 600px; margin-left: auto; margin-right: auto; text-align: center; margin-top: 30px;">
+                    <a href="menu.html" class="btn btn-accent">Browse Menu for More Items</a>
+                </div>
+            `;
+        }
+
+        // Show no order message
+        function showNoOrder() {
+            const container = document.getElementById('confirmationContent');
+            container.innerHTML = `
+                <div class="card" style="max-width: 600px; margin: 40px auto; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">❌</div>
+                    <h2>Order Not Found</h2>
+                    <p style="color: #6c757d; margin-bottom: 20px;">We couldn't find the order details. Please try again or contact support.</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+                        <a href="menu.html" class="btn btn-secondary">Browse Menu</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Close user menu on outside click
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('userMenu');
+            if (!e.target.closest('.user-menu-trigger') && !e.target.closest('#userMenu')) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

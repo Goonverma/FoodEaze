@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Place Order | CCL Hospital Food &amp; Queue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#5b4300",
+                    "inverse-surface": "#2e3132",
+                    "error-container": "#ffdad6",
+                    "secondary": "#5d5f5f",
+                    "tertiary": "#291c00",
+                    "on-background": "#191c1d",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdf9e",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#003366",
+                    "on-primary-container": "#799dd6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f3f4f5",
+                    "on-secondary-fixed-variant": "#454747",
+                    "on-surface": "#191c1d",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "on-primary-fixed": "#001b3c",
+                    "on-primary-fixed-variant": "#1f477b",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-tertiary-container": "#c49400",
+                    "surface-container-high": "#e7e8e9",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "outline": "#737780",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-error": "#ffffff",
+                    "surface-bright": "#f8f9fa",
+                    "tertiary-fixed-dim": "#fabd00",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a7c8ff",
+                    "surface-variant": "#e1e3e4",
+                    "secondary-container": "#dfe0e0",
+                    "outline-variant": "#c3c6d1",
+                    "surface": "#f8f9fa",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#d5e3ff",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "surface-container": "#edeeef",
+                    "primary": "#001e40",
+                    "surface-tint": "#3a5f94",
+                    "tertiary-container": "#433000",
+                    "on-surface-variant": "#43474f",
+                    "background": "#f8f9fa",
+                    "on-secondary-container": "#616363",
+                    "on-tertiary-fixed": "#261a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-lg": "2rem",
+                    "margin-mobile": "1rem",
+                    "stack-sm": "0.5rem",
+                    "gutter": "1.5rem",
+                    "stack-md": "1rem",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "title-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "title-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e1e3e4;
+            border-radius: 10px;
+        }
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-stack-md gap-stack-sm bg-primary dark:bg-primary text-on-primary dark:text-on-primary h-screen w-64 z-50">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-10 h-10 bg-on-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-on-primary">CCL Hospital</h1>
+<p class="text-[10px] uppercase tracking-wider opacity-80">Food &amp; Queue Management</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200 ease-in-out font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-semibold font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span>Menu</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200 ease-in-out font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span>Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200 ease-in-out font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200 ease-in-out font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">person</span>
+<span>Profile</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-on-primary-fixed-variant pt-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200 ease-in-out font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200 ease-in-out font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-gutter h-16 sticky top-0 z-40 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-none">
+<div class="flex items-center gap-4">
+<h2 class="font-display-lg text-display-lg text-primary-container dark:text-primary-fixed">Place Order</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors cursor-pointer">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors cursor-pointer">settings</button>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-outline-variant">
+<span class="font-title-sm text-title-sm text-on-surface">Profile</span>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a hospital administrator in a clean white environment, lit with soft natural daylight to evoke trust and authority. The background is a minimalist, high-contrast office setting consistent with a modern corporate healthcare brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrDqUjrBX4UmcTTXc7tkEPBf8wZrvcbLxCstscbjvUgK6J2gbU7ofrOUualVR3oqB3gJ4aA3oWmhE5S87wGSGdH4W429wDhj1D20SLLRGp26mPwJlS65DK4v1T1CG5xr2IWZy_Z05XKfqNWtlr8WXB6XPRuvXzCoil1xEe0Ll5FeAFvQfVOQVu2gkTKDqaNCp5gw_mUDuVm-_3zHds4OFGo5ZWWcJ47GfcGzWixJsOHnm6Efgow_XiXq4RG9V8xUS5bcEHrDn5gMw"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="p-gutter max-w-container-max mx-auto w-full grid grid-cols-12 gap-8">
+<!-- Place Order Form -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-8">
+<section class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+<div class="bg-surface-container-low px-6 py-4 border-b border-outline-variant">
+<h3 class="font-title-sm text-title-sm text-primary">Patient &amp; Delivery Details</h3>
+</div>
+<div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Food Item (Read Only) -->
+<div class="col-span-2">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">SELECTED FOOD ITEM</label>
+<div class="flex items-center gap-4 p-4 bg-surface-container-low border border-outline-variant rounded">
+<div class="w-16 h-16 rounded overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A high-quality, professional food photograph of a nutritious hospital-grade grilled chicken and vegetable meal. The plate is clean white, the lighting is bright and even, highlighting the fresh colors of steamed broccoli and carrots alongside a perfectly cooked protein portion." src="https://lh3.googleusercontent.com/aida-public/AB6AXuATme3KwxfPndILGHhuf9S-A9cRelTXjwFpsJMx2QCCktNTas5LKmmsNfiXGtBXAevGI71xGfc0dKf5z63Q9nu-mwSg-rxHubNyUlIO5Ijp35V27Zp7O2cXyzkHM6XubvD4vhtZx3AW796ai7eAHhNyrKodSQfGcDV7yZDe879E0kUA-sfNX9gP3MNkAoVRarHMJC5Klrcuv14jr2D5tY_AtL55fSm_XtnkbJIKhS9wUs_A_ATXiwoKmKUId8UC5xoW0VJa3WWqiYQ"/>
+</div>
+<div class="flex-1">
+<p class="font-title-sm text-title-sm text-on-surface">Grilled Chicken with Steamed Vegetables</p>
+<p class="text-body-sm text-on-surface-variant">Dietary: Low Sodium, High Protein</p>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-headline-md text-primary">₹349.00</p>
+</div>
+</div>
+</div>
+<!-- Quantity -->
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">QUANTITY</label>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded text-primary hover:bg-surface-container-low" onclick="updateQty(-1)">-</button>
+<input class="w-16 h-10 text-center border-outline-variant rounded focus:border-primary-container focus:ring-0" id="quantity" readonly="" type="number" value="1"/>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded text-primary hover:bg-surface-container-low" onclick="updateQty(1)">+</button>
+</div>
+</div>
+<!-- Ward Number -->
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">WARD NUMBER</label>
+<select class="w-full border-outline-variant rounded h-10 px-3 focus:border-primary-container focus:ring-0">
+<option>General Ward - A</option>
+<option>General Ward - B</option>
+<option>ICU - Level 1</option>
+<option>Maternity Wing</option>
+<option>Surgical Wing</option>
+</select>
+</div>
+<!-- Room Number -->
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">ROOM NUMBER</label>
+<input class="w-full border-outline-variant rounded h-10 px-3 focus:border-primary-container focus:ring-0" placeholder="e.g. 402-B" type="text"/>
+</div>
+<!-- Patient ID -->
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">PATIENT ID (OPTIONAL)</label>
+<input class="w-full border-outline-variant rounded h-10 px-3 focus:border-primary-container focus:ring-0" placeholder="PT-88291" type="text"/>
+</div>
+</div>
+</section>
+<section class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+<div class="bg-surface-container-low px-6 py-4 border-b border-outline-variant">
+<h3 class="font-title-sm text-title-sm text-primary">Payment Options</h3>
+</div>
+<div class="p-8 flex flex-col gap-6">
+<div class="flex flex-col md:flex-row gap-4">
+<!-- COD Option -->
+<label class="flex-1 flex items-center gap-4 p-4 border-2 border-primary-container bg-primary-fixed/20 rounded cursor-pointer transition-all">
+<input checked="" class="text-primary-container focus:ring-0" name="payment" type="radio"/>
+<div class="flex-1">
+<p class="font-title-sm text-title-sm text-primary">Cash on Delivery</p>
+<p class="text-body-sm text-on-surface-variant">Pay when food arrives at the ward.</p>
+</div>
+<span class="material-symbols-outlined text-primary">payments</span>
+</label>
+<!-- Online Payment Disabled -->
+<div class="flex-1 flex items-center gap-4 p-4 border border-outline-variant bg-surface-container-low rounded opacity-60 cursor-not-allowed">
+<input class="text-outline-variant" disabled="" type="radio"/>
+<div class="flex-1">
+<p class="font-title-sm text-title-sm text-on-surface-variant">Online Payment</p>
+<p class="text-body-sm text-on-surface-variant">Credit, Debit, UPI.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">contactless</span>
+</div>
+</div>
+<!-- Notice -->
+<div class="flex items-start gap-3 p-4 bg-tertiary-fixed/30 border border-tertiary-container rounded">
+<span class="material-symbols-outlined text-on-tertiary-container">info</span>
+<p class="text-body-sm text-tertiary-container">
+<strong>Notice:</strong> Online Payment Module Under Development. Currently accepting Cash on Delivery only for all ward orders.
+                            </p>
+</div>
+</div>
+</section>
+</div>
+<!-- Order Summary Card -->
+<div class="col-span-12 lg:col-span-4">
+<div class="sticky top-24 bg-surface-container-lowest border border-outline-variant rounded-lg shadow-sm">
+<div class="bg-surface-container-low px-6 py-4 border-b border-outline-variant">
+<h3 class="font-title-sm text-title-sm text-primary">Order Summary</h3>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div class="flex justify-between text-on-surface-variant">
+<span>Subtotal (1 item)</span>
+<span id="subtotal">₹349.00</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Delivery Fee</span>
+<span>₹20.00</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Hospital Surcharge</span>
+<span>₹0.00</span>
+</div>
+<hr class="border-outline-variant"/>
+<div class="flex justify-between items-end pt-2">
+<span class="font-headline-md text-headline-md text-on-surface">Total Amount</span>
+<span class="font-display-lg text-display-lg text-primary" id="total">₹369.00</span>
+</div>
+<p class="text-[11px] text-center text-on-surface-variant mt-4">
+                            By placing the order, you agree to CCL Hospital Food Services terms and conditions.
+                        </p>
+<button class="mt-4 w-full bg-primary-container text-on-primary py-4 rounded font-title-sm text-title-sm hover:opacity-90 transition-opacity active:scale-[0.98]" onclick="toggleModal(true)">
+                            Confirm Order
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Confirmation Modal -->
+<div class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4" id="confirmationModal">
+<div class="modal-backdrop absolute inset-0" onclick="toggleModal(false)"></div>
+<div class="bg-surface-container-lowest w-full max-w-md rounded-lg shadow-xl relative z-10 overflow-hidden transform transition-all duration-300 scale-95 opacity-0" id="modalContent">
+<div class="p-8 flex flex-col items-center text-center">
+<div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-4xl text-green-700" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-on-surface mb-2">Order Confirmed!</h2>
+<p class="text-body-md text-on-surface-variant mb-6">
+                    Your request for Ward Delivery has been placed successfully. 
+                    Order ID: <span class="font-semibold text-primary">#ORD-CCL-99218</span>
+</p>
+<div class="w-full bg-surface-container-low p-4 rounded-lg text-left flex flex-col gap-2 mb-8">
+<div class="flex justify-between text-body-sm">
+<span class="text-on-surface-variant">Estimated Delivery:</span>
+<span class="font-semibold text-on-surface">25 - 35 mins</span>
+</div>
+<div class="flex justify-between text-body-sm">
+<span class="text-on-surface-variant">Payment Mode:</span>
+<span class="font-semibold text-on-surface">Cash on Delivery</span>
+</div>
+</div>
+<div class="flex gap-4 w-full">
+<button class="flex-1 border border-outline-variant text-on-surface py-3 rounded font-title-sm" onclick="toggleModal(false)">Close</button>
+<button class="flex-1 bg-primary-container text-on-primary py-3 rounded font-title-sm">Track Order</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+        const unitPrice = 349;
+        const deliveryFee = 20;
+
+        function updateQty(delta) {
+            const input = document.getElementById('quantity');
+            let val = parseInt(input.value) + delta;
+            if (val < 1) val = 1;
+            input.value = val;
+            
+            const subtotal = val * unitPrice;
+            const total = subtotal + deliveryFee;
+            
+            document.getElementById('subtotal').innerText = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('total').innerText = `₹${total.toFixed(2)}`;
+        }
+
+        function toggleModal(show) {
+            const modal = document.getElementById('confirmationModal');
+            const content = document.getElementById('modalContent');
+            if (show) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    content.classList.remove('scale-95', 'opacity-0');
+                    content.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            } else {
+                content.classList.add('scale-95', 'opacity-0');
+                content.classList.remove('scale-100', 'opacity-100');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+    </script>
+</body></html>

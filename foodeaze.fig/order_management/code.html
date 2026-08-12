@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CCL Hospital - Order Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#5b4300",
+                    "inverse-surface": "#2e3132",
+                    "error-container": "#ffdad6",
+                    "secondary": "#5d5f5f",
+                    "tertiary": "#291c00",
+                    "on-background": "#191c1d",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdf9e",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#003366",
+                    "on-primary-container": "#799dd6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f3f4f5",
+                    "on-secondary-fixed-variant": "#454747",
+                    "on-surface": "#191c1d",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "on-primary-fixed": "#001b3c",
+                    "on-primary-fixed-variant": "#1f477b",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-tertiary-container": "#c49400",
+                    "surface-container-high": "#e7e8e9",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "outline": "#737780",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-error": "#ffffff",
+                    "surface-bright": "#f8f9fa",
+                    "tertiary-fixed-dim": "#fabd00",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a7c8ff",
+                    "surface-variant": "#e1e3e4",
+                    "secondary-container": "#dfe0e0",
+                    "outline-variant": "#c3c6d1",
+                    "surface": "#f8f9fa",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#d5e3ff",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "surface-container": "#edeeef",
+                    "primary": "#001e40",
+                    "surface-tint": "#3a5f94",
+                    "tertiary-container": "#433000",
+                    "on-surface-variant": "#43474f",
+                    "background": "#f8f9fa",
+                    "on-secondary-container": "#616363",
+                    "on-tertiary-fixed": "#261a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-lg": "2rem",
+                    "margin-mobile": "1rem",
+                    "stack-sm": "0.5rem",
+                    "gutter": "1.5rem",
+                    "stack-md": "1rem",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "title-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "title-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f3f5; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c3c6d1; border-radius: 10px; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar (Admin/Staff version) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-stack-md gap-stack-sm bg-primary dark:bg-primary docked h-screen w-64 z-50">
+<div class="flex flex-col gap-1 mb-8 px-2">
+<h1 class="font-headline-md text-headline-md text-on-primary">CCL Hospital</h1>
+<p class="text-xs text-primary-fixed-dim uppercase tracking-widest opacity-80">Food &amp; Queue Management</p>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-body-md text-body-md">Menu</span>
+</a>
+<!-- Active State: Orders -->
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-semibold duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-body-md text-body-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-md text-body-md">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md text-body-md">Profile</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-2 border-t border-on-primary-fixed-variant pt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md text-body-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-gutter h-16 sticky top-0 z-40 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-primary-container text-body-sm font-body-sm outline-none" placeholder="Search orders, patients or wards..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6 ml-4">
+<div class="flex gap-4">
+<button class="relative text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-outline-variant h-8 cursor-pointer active:opacity-80">
+<div class="text-right">
+<p class="font-title-sm text-title-sm leading-tight">Admin Staff</p>
+<p class="text-xs text-on-surface-variant">Dietary Department</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a hospital administrator wearing a clean white clinical coat with a subtle CCL hospital badge on the lapel. The background is a softly blurred modern hospital hallway with clean lines and bright, high-key clinical lighting. The composition is a close-up, emphasizing authority, reliability, and care, with a neutral and focused facial expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2K75yXVCV40c_-bM4qi5oUzKi_P4-R0DUScfVEwv8UMM03Je_wxfRqAqKttrXZdFkeMt5KqOtujURyT5Jcs08kxJktrn0bDON3iNJ0nEQMPkKQ-YN_UHFrNkvMIloFB_P2yo5YgtdB7fuNhmuuTCNA9U12DCdXr3EFssqu8G4FAIS8mHoA69WYMCv3jE3jZ6IGp_2op5Vke347yByFB7tp1wmxuFwPPMbARA3VPKBDizt3dy0dMvpOUbqI1vEH88l0BEps4hBRSQ"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-gutter max-w-container-max mx-auto w-full">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<nav class="flex text-xs text-on-surface-variant gap-2 mb-2 uppercase tracking-widest font-semibold">
+<span>Dashboard</span>
+<span>/</span>
+<span class="text-primary-container">Order Management</span>
+</nav>
+<h2 class="font-display-lg text-display-lg text-primary">Active Patient Orders</h2>
+<p class="text-on-surface-variant font-body-md mt-1">Real-time monitoring and dispatching of hospital meals.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline text-primary font-semibold rounded hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+                        Filter
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary-container text-white font-semibold rounded hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">add</span>
+                        New Emergency Order
+                    </button>
+</div>
+</div>
+<!-- Stats Overview (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<div class="bg-surface-container-lowest border border-outline-variant p-4 flex items-center gap-4">
+<div class="p-3 bg-tertiary-fixed text-on-tertiary-fixed rounded">
+<span class="material-symbols-outlined">pending_actions</span>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-on-surface-variant uppercase">Pending</p>
+<p class="text-headline-md font-headline-md">24</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-4 flex items-center gap-4">
+<div class="p-3 bg-primary-fixed text-on-primary-fixed rounded">
+<span class="material-symbols-outlined">soup_kitchen</span>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-on-surface-variant uppercase">Preparing</p>
+<p class="text-headline-md font-headline-md">12</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-4 flex items-center gap-4">
+<div class="p-3 bg-secondary-container text-on-secondary-container rounded">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-on-surface-variant uppercase">In Transit</p>
+<p class="text-headline-md font-headline-md">08</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-4 flex items-center gap-4">
+<div class="p-3 bg-green-100 text-green-800 rounded">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-on-surface-variant uppercase">Delivered Today</p>
+<p class="text-headline-md font-headline-md">142</p>
+</div>
+</div>
+</div>
+<!-- Main Order Table Section -->
+<div class="bg-white border border-outline-variant shadow-sm overflow-hidden">
+<div class="bg-surface-container-low px-6 py-4 border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-title-sm text-title-sm text-primary">Current Live Queue</h3>
+<div class="flex gap-2">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-tertiary-fixed text-[10px] font-bold text-on-tertiary-fixed-variant">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+                            LIVE UPDATING
+                        </span>
+</div>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4 font-semibold">Order ID</th>
+<th class="px-6 py-4 font-semibold">Patient Name</th>
+<th class="px-6 py-4 font-semibold">Ward/Room</th>
+<th class="px-6 py-4 font-semibold">Food Item</th>
+<th class="px-6 py-4 font-semibold">Qty</th>
+<th class="px-6 py-4 font-semibold">Order Time</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+<th class="px-6 py-4 font-semibold text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-mono text-sm text-primary font-bold">#ORD-9942</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-semibold">Rajesh Kumar</span>
+<span class="text-xs text-on-surface-variant">+91 98765 43210</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">
+<span class="font-medium">Ward 4A</span> / R-202
+                                </td>
+<td class="px-6 py-4 text-sm">Diabetic Thali (Low Salt)</td>
+<td class="px-6 py-4 text-sm">01</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">12:15 PM</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded bg-tertiary-fixed text-on-tertiary-container text-[11px] font-bold uppercase tracking-wider">Pending</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-primary-fixed rounded transition-colors text-primary-container" title="Mark Ready">
+<span class="material-symbols-outlined">restaurant</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded transition-colors text-on-surface-variant" title="View Details">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded transition-colors text-on-surface-variant" title="More Actions">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-mono text-sm text-primary font-bold">#ORD-9941</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-semibold">Sunita Sharma</span>
+<span class="text-xs text-on-surface-variant">+91 91234 56789</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">
+<span class="font-medium">ICU 1</span> / B-04
+                                </td>
+<td class="px-6 py-4 text-sm">Liquid Diet (Soup)</td>
+<td class="px-6 py-4 text-sm">01</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">12:08 PM</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded bg-primary-fixed text-on-primary-fixed-variant text-[11px] font-bold uppercase tracking-wider">Preparing</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-primary-fixed rounded transition-colors text-primary-container" title="Mark Ready">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded transition-colors text-on-surface-variant" title="View Details">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded transition-colors text-on-surface-variant" title="More Actions">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-mono text-sm text-primary font-bold">#ORD-9940</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-semibold">Amit Verma</span>
+<span class="text-xs text-on-surface-variant">+91 99887 76655</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">
+<span class="font-medium">Ward 2B</span> / R-105
+                                </td>
+<td class="px-6 py-4 text-sm">Standard Veg Thali</td>
+<td class="px-6 py-4 text-sm">02</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">11:55 AM</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Ready</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 bg-primary-container text-white text-xs font-bold rounded hover:opacity-90" title="Mark Delivered">
+                                            MARK DELIVERED
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-mono text-sm text-primary font-bold">#ORD-9939</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-semibold">Priya Das</span>
+<span class="text-xs text-on-surface-variant">+91 88776 65544</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">
+<span class="font-medium">Maternity</span> / R-08
+                                </td>
+<td class="px-6 py-4 text-sm">Oatmeal &amp; Fruits</td>
+<td class="px-6 py-4 text-sm">01</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">11:40 AM</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded bg-green-100 text-green-800 text-[11px] font-bold uppercase tracking-wider">Delivered</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container-high rounded transition-colors text-on-surface-variant" title="View Details">
+<span class="material-symbols-outlined">receipt</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Additional Rows for visual weight -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-mono text-sm text-primary font-bold">#ORD-9938</td>
+<td class="px-6 py-4"><span class="font-semibold">Vikram Singh</span></td>
+<td class="px-6 py-4 text-sm">Ward 3C / R-312</td>
+<td class="px-6 py-4 text-sm">Egg Diet</td>
+<td class="px-6 py-4 text-sm">02</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">11:30 AM</td>
+<td class="px-6 py-4"><span class="px-3 py-1 rounded bg-green-100 text-green-800 text-[11px] font-bold uppercase tracking-wider">Delivered</span></td>
+<td class="px-6 py-4 text-center"><span class="text-xs text-on-surface-variant italic">Closed</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer/Pagination -->
+<div class="px-6 py-4 bg-surface-container-lowest border-t border-outline-variant flex justify-between items-center">
+<p class="text-body-sm text-on-surface-variant">Showing 1 to 5 of 18 active orders</p>
+<div class="flex gap-1">
+<button class="p-2 border border-outline-variant rounded disabled:opacity-30" disabled=""><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="px-3 py-1 border border-primary-container bg-primary-container text-white rounded font-bold">1</button>
+<button class="px-3 py-1 border border-outline-variant hover:bg-surface-container text-on-surface-variant rounded">2</button>
+<button class="px-3 py-1 border border-outline-variant hover:bg-surface-container text-on-surface-variant rounded">3</button>
+<button class="p-2 border border-outline-variant rounded hover:bg-surface-container text-on-surface-variant"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Detail & Management Modal Placeholder (Simulation) -->
+<div class="hidden fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center backdrop-blur-sm" id="modal-overlay">
+<div class="bg-white w-full max-w-2xl rounded shadow-xl overflow-hidden animate-in fade-in zoom-in duration-200">
+<div class="bg-primary text-white px-6 py-4 flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md">Order Details: #ORD-9942</h4>
+<button class="material-symbols-outlined hover:text-secondary-fixed-dim" onclick="toggleModal()">close</button>
+</div>
+<div class="p-8 grid grid-cols-2 gap-8">
+<div>
+<h5 class="text-label-caps font-label-caps text-on-surface-variant uppercase mb-4">Patient Information</h5>
+<div class="space-y-3">
+<p class="text-body-md"><span class="font-bold w-32 inline-block">Name:</span> Rajesh Kumar</p>
+<p class="text-body-md"><span class="font-bold w-32 inline-block">Contact:</span> +91 98765 43210</p>
+<p class="text-body-md"><span class="font-bold w-32 inline-block">Ward/Room:</span> Ward 4A / R-202</p>
+<p class="text-body-md"><span class="font-bold w-32 inline-block">Diet Type:</span> Diabetic (Low Sodium)</p>
+</div>
+</div>
+<div>
+<h5 class="text-label-caps font-label-caps text-on-surface-variant uppercase mb-4">Order Items</h5>
+<div class="bg-surface-container-low p-4 rounded">
+<ul class="space-y-2">
+<li class="flex justify-between text-body-sm">
+<span>Diabetic Veg Thali</span>
+<span class="font-bold">x1</span>
+</li>
+<li class="flex justify-between text-body-sm">
+<span>Extra Curd (Double toned)</span>
+<span class="font-bold">x1</span>
+</li>
+</ul>
+<div class="mt-4 pt-4 border-t border-outline-variant">
+<p class="text-xs text-error font-bold italic">Note: Patient has severe allergy to nuts.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="px-8 py-6 bg-surface-container-lowest border-t border-outline-variant flex justify-end gap-3">
+<button class="px-6 py-2 border border-outline text-on-surface font-bold rounded" onclick="toggleModal()">Cancel</button>
+<button class="px-6 py-2 bg-tertiary-container text-on-tertiary-container font-bold rounded hover:opacity-90">Start Preparation</button>
+<button class="px-6 py-2 bg-primary-container text-white font-bold rounded hover:opacity-90">Mark as Ready</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-auto p-gutter border-t border-outline-variant bg-surface-container-low text-on-surface-variant">
+<div class="max-w-container-max mx-auto flex justify-between items-center">
+<p class="text-xs font-medium">© 2024 CCL Hospital Food &amp; Queue Management System. Public Sector Undertaking.</p>
+<div class="flex gap-4">
+<a class="text-xs hover:text-primary underline" href="#">System Status: Operational</a>
+<a class="text-xs hover:text-primary underline" href="#">Staff Support</a>
+</div>
+</div>
+</footer>
+</main>
+<script>
+        function toggleModal() {
+            const modal = document.getElementById('modal-overlay');
+            modal.classList.toggle('hidden');
+        }
+
+        // Simple row interaction to show modal
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('dblclick', () => toggleModal());
+        });
+    </script>
+</body></html>

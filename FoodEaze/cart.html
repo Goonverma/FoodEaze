@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="menu.html">Order Food</a></li>
+                <li><a href="order-history.html">History</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="btn btn-accent">🛒 Cart</a>
+                <button class="user-menu-trigger" onclick="toggleUserMenu()">👤 Account</button>
+                <div id="userMenu"
+                    style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; min-width: 200px;">
+                    <a href="profile.html"
+                        style="display: block; padding: 12px 16px; border-bottom: 1px solid #ddd; text-decoration: none;">👤
+                        Profile</a>
+                    <a href="#" onclick="logoutFromDashboard()"
+                        style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="dashboard-wrapper" style="grid-template-columns: 1fr;">
+        <main class="dashboard-content">
+            <div class="content-header">
+                <h1>Shopping Cart</h1>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 350px; gap: 24px;">
+                <!-- Cart Items -->
+                <div>
+                    <div class="cart-items-list" id="cartContainer">
+                        <p class="text-center p-lg">Your cart is empty</p>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div>
+                    <div class="cart-summary" id="cartSummary">
+                        <h3 style="margin-bottom: 20px; color: #003366;">Order Summary</h3>
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span>₹<span id="subtotal">0</span></span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Discount:</span>
+                            <span>-₹<span id="discount">0</span></span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Taxes (5%):</span>
+                            <span>₹<span id="taxes">0</span></span>
+                        </div>
+                        <div class="summary-row">
+                            <strong><span>Total:</span></strong>
+                            <strong><span>₹<span id="total">0</span></span></strong>
+                        </div>
+
+                        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+                            <label for="paymentMethod" style="display: block; margin-bottom: 10px;">Payment
+                                Method:</label>
+                            <select id="paymentMethod"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                                <option value="Card">Debit/Credit Card</option>
+                                <option value="Online">Online Transfer</option>
+                                <option value="Cash">Pay at Pickup</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-top: 20px;">
+                            <textarea id="orderNotes" placeholder="Special requests or dietary notes..."
+                                style="width: 100%; height: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;"></textarea>
+                        </div>
+
+                        <button class="btn btn-primary btn-full" onclick="proceedToCheckout()"
+                            style="margin-top: 20px;">Place Order</button>
+                        <a href="menu.html" class="btn btn-secondary btn-full"
+                            style="margin-top: 10px; display: block; text-align: center;">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification -->
+            <div id="notificationContainer"></div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FoodEaze</h4>
+                    <p>Making hospital food ordering easy and convenient.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="order-history.html">Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: support@foodeaze.com<br>Phone: +91-xxx-xxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodEaze - CCL Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/auth.js"></script>
+    <script src="js/menu.js"></script>
+    <script type="module" src="js/cart.js"></script>
+    <script type="module" src="js/orders.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        // Initialize page
+        window.addEventListener('load', async () => {
+            await setupAuthRedirects();
+            await loadUserCartFromFirestore();
+            renderCart();
+        });
+
+        // Render cart items
+        function renderCart() {
+            const cart = getCart();
+            const container = document.getElementById('cartContainer');
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center p-lg">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">🛒</div>
+                        <h3>Your cart is empty</h3>
+                        <p>Start by adding some delicious items from our menu!</p>
+                        <a href="menu.html" class="btn btn-primary" style="margin-top: 20px;">Browse Menu</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">₹${item.price} × ${item.quantity}</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="flex: 0 0 80px;">
+                                <input type="number" value="${item.quantity}" min="1" max="10" 
+                                    onchange="updateQuantity('${item.id}', this.value)"
+                                    style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
+                            </div>
+                            <strong>₹${item.total}</strong>
+                            <button class="remove-btn" onclick="removeItem('${item.id}')">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            updateSummary();
+        }
+
+        // Update item quantity
+        async function updateQuantity(itemId, newQty) {
+            const qty = parseInt(newQty);
+            if (qty > 0) {
+                await updateCartItemQuantity(itemId, qty);
+                renderCart();
+                showNotification('Cart updated', 'info');
+            }
+        }
+
+        // Remove item
+        async function removeItem(itemId) {
+            const result = await removeFromCart(itemId);
+            if (result.success) {
+                showNotification(result.message, 'success');
+                renderCart();
+            }
+        }
+
+        // Update summary
+        function updateSummary() {
+            const summary = getCartSummary();
+            const discount = getCartDiscount();
+            const discountAmount = Math.round((summary.subtotal * discount) / 100);
+
+            document.getElementById('subtotal').textContent = summary.subtotal;
+            document.getElementById('discount').textContent = discountAmount;
+            document.getElementById('taxes').textContent = summary.taxes;
+            document.getElementById('total').textContent = summary.total - discountAmount + summary.taxes;
+        }
+
+        // Proceed to checkout
+        async function proceedToCheckout() {
+            // Validate cart
+            const validation = validateCart();
+            if (!validation.valid) {
+                showNotification(validation.message, 'warning');
+                return;
+            }
+
+            // Validate user is authenticated
+            const user = getCurrentUser();
+            if (!user) {
+                showNotification('Please login to place order', 'warning');
+                return;
+            }
+
+            // Show loading
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = 'Placing order...';
+
+            // Create order
+            const orderData = {
+                paymentMethod: document.getElementById('paymentMethod').value,
+                notes: document.getElementById('orderNotes').value
+            };
+
+            const result = await createOrder(orderData);
+
+            btn.disabled = false;
+            btn.textContent = 'Place Order';
+
+            if (result.success) {
+                showNotification('Order placed successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = `order-status.html?id=${result.orderId}`;
+                }, 1500);
+            } else {
+                showNotification(result.message, 'danger');
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} show`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '100px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.maxWidth = '400px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(alertDiv);
+
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Close user menu on outside click
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('userMenu');
+            if (!e.target.closest('.user-menu-trigger') && !e.target.closest('#userMenu')) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

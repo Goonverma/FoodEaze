@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Management Diet - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="menu.html">Order Food</a></li>
+                <li><a href="order-history.html">History</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="btn btn-accent">🛒 Cart</a>
+                <button class="user-menu-trigger" onclick="toggleUserMenu()">👤 Account</button>
+                <div id="userMenu"
+                    style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; min-width: 200px;">
+                    <a href="profile.html"
+                        style="display: block; padding: 12px 16px; border-bottom: 1px solid #ddd; text-decoration: none;">👤
+                        Profile</a>
+                    <a href="#" onclick="logoutFromDashboard()"
+                        style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="dashboard-wrapper" style="grid-template-columns: 1fr;">
+        <main class="dashboard-content">
+            <div class="content-header">
+                <a href="diet-preference.html" style="color: #003366; text-decoration: none; font-size: 0.9rem;">← Back
+                    to Diet Preferences</a>
+                <h1 style="margin-top: 15px;">⚖️ Weight Management Diet</h1>
+                <p style="color: #6c757d; font-size: 1.1rem;">Calorie-controlled meals designed for healthy weight
+                    management</p>
+            </div>
+
+            <!-- Diet Overview -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px;">
+                <div class="card">
+                    <h3 style="color: #003366;">About This Diet</h3>
+                    <p>The Weight Management Diet focuses on nutrient-dense, calorie-controlled meals to support healthy
+                        weight loss or maintenance. It emphasizes whole foods, proper portions, and balanced nutrition
+                        without sacrificing satisfaction.</p>
+
+                    <h4 style="margin-top: 20px;">Key Features:</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;">✓ Calorie-controlled portions</li>
+                        <li style="margin-bottom: 10px;">✓ High fiber content</li>
+                        <li style="margin-bottom: 10px;">✓ Lean proteins</li>
+                        <li style="margin-bottom: 10px;">✓ Nutrient-dense foods</li>
+                        <li style="margin-bottom: 10px;">✓ Satisfying meals</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: #003366;">Health Benefits</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 12px; padding: 12px; background: #f8f9fa; border-radius: 8px;">
+                            <strong>⚖️ Healthy Weight Loss</strong><br><small>Sustainable weight management without
+                                deprivation</small>
+                        </li>
+                        <li style="margin-bottom: 12px; padding: 12px; background: #f8f9fa; border-radius: 8px;">
+                            <strong>❤️ Heart Health</strong><br><small>Reduces cardiovascular disease risk</small>
+                        </li>
+                        <li style="margin-bottom: 12px; padding: 12px; background: #f8f9fa; border-radius: 8px;">
+                            <strong>🦵 Joint Relief</strong><br><small>Reduces stress on joints and improves
+                                mobility</small>
+                        </li>
+                        <li style="padding: 12px; background: #f8f9fa; border-radius: 8px;">
+                            <strong>💪 Improved Energy</strong><br><small>Balanced nutrition boosts overall
+                                vitality</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Health Tips -->
+            <div class="card" style="margin-bottom: 40px;">
+                <h3>💡 Health Tips & Guidelines</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+                    <div
+                        style="padding: 15px; background: #f8c5e0; border-left: 4px solid #dc3545; border-radius: 8px;">
+                        <strong>🥗 Fill with Vegetables</strong><br>
+                        Make half your plate vegetables for volume without excess calories
+                    </div>
+                    <div
+                        style="padding: 15px; background: #f8c5e0; border-left: 4px solid #dc3545; border-radius: 8px;">
+                        <strong>🍽️ Smaller Plates</strong><br>
+                        Use smaller dishware to naturally control portion sizes
+                    </div>
+                    <div
+                        style="padding: 15px; background: #f8c5e0; border-left: 4px solid #dc3545; border-radius: 8px;">
+                        <strong>💧 Drink Water</strong><br>
+                        Stay hydrated throughout the day to support metabolism
+                    </div>
+                    <div
+                        style="padding: 15px; background: #f8c5e0; border-left: 4px solid #dc3545; border-radius: 8px;">
+                        <strong>⏰ Regular Meal Times</strong><br>
+                        Eat at consistent times to regulate hunger hormones
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Menu Items -->
+            <div style="margin-bottom: 40px;">
+                <h3>🍴 Recommended Menu Items for Weight Management</h3>
+                <div class="menu-grid" id="recommendedItems" style="margin-top: 20px;"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
+                <a href="menu.html" class="btn btn-primary btn-full">Browse Full Menu</a>
+                <a href="diet-preference.html" class="btn btn-secondary btn-full">Change Diet Preference</a>
+            </div>
+
+            <!-- Notification -->
+            <div id="notificationContainer"></div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FoodEaze</h4>
+                    <p>Making hospital food ordering easy and convenient.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="order-history.html">Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: support@foodeaze.com<br>Phone: +91-xxx-xxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodEaze - CCL Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        window.addEventListener('load', () => {
+            loadRecommendedItems('Weight Management Diet');
+            setupAuthRedirects();
+        });
+
+        function loadRecommendedItems(dietType) {
+            const recommended = getRecommendedItems(dietType);
+            const itemsDiv = document.getElementById('recommendedItems');
+            itemsDiv.innerHTML = recommended.map(item => `
+                <div class="menu-item-card">
+                    <div class="menu-item-image">🍽️</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-name">${item.name}</div>
+                        <div class="menu-item-price">₹${item.price}</div>
+                        <div class="menu-item-details">
+                            <span>🔥 ${item.calories} cal</span>
+                            <span>💪 ${item.protein}g protein</span>
+                        </div>
+                        <div style="margin-top: auto;">
+                            <button class="btn btn-primary" style="width: 100%; cursor: pointer;" onclick="addToCart('${item.id}', '${item.name}', ${item.price})">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(itemId, itemName, itemPrice) {
+            showNotification(`${itemName} added to cart!`, 'success');
+        }
+
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} show`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '100px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.maxWidth = '400px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(alertDiv);
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('userMenu');
+            if (!e.target.closest('.user-menu-trigger') && !e.target.closest('#userMenu')) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .order-step-active {
+            color: #003366;
+            font-weight: 700;
+        }
+        .order-step-line {
+            height: 4px;
+            flex-grow: 1;
+            background-color: #e2e2e2;
+            margin: 0 8px;
+            border-radius: 2px;
+        }
+        .order-step-line-active {
+            background-color: #003366;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#5b4300",
+                        "inverse-surface": "#2e3132",
+                        "error-container": "#ffdad6",
+                        "secondary": "#5d5f5f",
+                        "tertiary": "#291c00",
+                        "on-background": "#191c1d",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#ffdf9e",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#003366",
+                        "on-primary-container": "#799dd6",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-surface": "#191c1d",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed": "#001b3c",
+                        "on-primary-fixed-variant": "#1f477b",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-tertiary-container": "#c49400",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d9dadb",
+                        "outline": "#737780",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "tertiary-fixed-dim": "#fabd00",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#a7c8ff",
+                        "surface-variant": "#e1e3e4",
+                        "secondary-container": "#dfe0e0",
+                        "outline-variant": "#c3c6d1",
+                        "surface": "#f8f9fa",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#d5e3ff",
+                        "primary-fixed-dim": "#a7c8ff",
+                        "surface-container": "#edeeef",
+                        "primary": "#001e40",
+                        "surface-tint": "#3a5f94",
+                        "tertiary-container": "#433000",
+                        "on-surface-variant": "#43474f",
+                        "background": "#f8f9fa",
+                        "on-secondary-container": "#616363",
+                        "on-tertiary-fixed": "#261a00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-lg": "2rem",
+                        "margin-mobile": "1rem",
+                        "stack-sm": "0.5rem",
+                        "gutter": "1.5rem",
+                        "stack-md": "1rem",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "title-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-gutter h-16 sticky top-0 z-40 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-stack-md">
+<span class="font-display-lg text-display-lg text-primary-container">CCL Hospital Food &amp; Queue</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 cursor-pointer hover:bg-surface-container-low transition-colors rounded-full">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="p-2 cursor-pointer hover:bg-surface-container-low transition-colors rounded-full">
+<span class="material-symbols-outlined text-primary">settings</span>
+</button>
+<div class="flex items-center gap-2 px-4 py-1 rounded-full border border-outline-variant cursor-pointer hover:bg-surface-container-low transition-colors">
+<span class="font-title-sm text-title-sm text-primary">Profile</span>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+</div>
+</div>
+</header>
+<div class="flex min-h-[calc(100vh-64px)]">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] w-64 p-stack-md gap-stack-sm bg-primary text-on-primary z-30">
+<div class="mb-stack-lg">
+<h2 class="font-headline-md text-headline-md text-on-primary">CCL Hospital</h2>
+<p class="text-xs opacity-70">Food &amp; Queue Management</p>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+                </a>
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span> Menu
+                </a>
+<a class="flex items-center gap-3 p-3 bg-primary-container text-on-primary-container rounded-lg font-semibold font-body-md text-body-md shadow-sm" href="#">
+<span class="material-symbols-outlined" data-weight="fill">receipt_long</span> Orders
+                </a>
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">history</span> History
+                </a>
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">person</span> Profile
+                </a>
+</div>
+<div class="mt-8">
+<button class="w-full bg-tertiary-fixed text-on-tertiary-fixed font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span> Place New Order
+                </button>
+</div>
+<div class="mt-auto flex flex-col gap-1 pt-stack-md border-t border-on-primary-fixed-variant">
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary transition-all rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">help</span> Help Center
+                </a>
+<a class="flex items-center gap-3 p-3 text-primary-fixed-dim hover:text-on-primary transition-all rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">logout</span> Logout
+                </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 p-gutter max-w-container-max mx-auto w-full">
+<div class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Order Status Tracking</h1>
+<p class="text-on-surface-variant font-body-md text-body-md">Real-time updates for your active meal request.</p>
+</div>
+<div class="flex items-center gap-3 bg-surface-container-high px-4 py-2 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<div>
+<p class="text-[10px] font-label-caps uppercase text-on-surface-variant">Estimated Delivery</p>
+<p class="font-title-sm text-title-sm text-primary">12:45 PM (In 15 mins)</p>
+</div>
+</div>
+</div>
+<!-- Tracking Card -->
+<div class="bg-surface border border-outline-variant rounded-lg overflow-hidden mb-gutter shadow-sm">
+<div class="bg-surface-container-low p-stack-md border-b border-outline-variant flex flex-wrap justify-between items-center gap-4">
+<div class="flex items-center gap-6">
+<div>
+<p class="text-[10px] font-label-caps uppercase text-on-surface-variant">Order ID</p>
+<p class="font-title-sm text-title-sm text-primary">#ORD-99281</p>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant hidden sm:block"></div>
+<div>
+<p class="text-[10px] font-label-caps uppercase text-on-surface-variant">Order Time</p>
+<p class="font-body-md text-body-md">Today, 12:10 PM</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded font-title-sm text-[12px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                            Preparing
+                        </span>
+</div>
+</div>
+<div class="p-gutter">
+<!-- Progress Timeline -->
+<div class="relative py-8 px-4">
+<div class="flex items-center justify-between relative z-10">
+<!-- Pending -->
+<div class="flex flex-col items-center gap-3 w-24">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined">check</span>
+</div>
+<span class="font-title-sm text-title-sm text-primary">Pending</span>
+<span class="text-[11px] text-on-surface-variant">12:10 PM</span>
+</div>
+<div class="order-step-line order-step-line-active"></div>
+<!-- Preparing -->
+<div class="flex flex-col items-center gap-3 w-24">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-lg border-4 border-primary-fixed">
+<span class="material-symbols-outlined animate-pulse">restaurant</span>
+</div>
+<span class="font-title-sm text-title-sm text-primary order-step-active">Preparing</span>
+<span class="text-[11px] text-on-surface-variant">12:20 PM</span>
+</div>
+<div class="order-step-line"></div>
+<!-- Ready -->
+<div class="flex flex-col items-center gap-3 w-24">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface-variant">Ready</span>
+<span class="text-[11px] text-on-surface-variant">--:--</span>
+</div>
+<div class="order-step-line"></div>
+<!-- Delivered -->
+<div class="flex flex-col items-center gap-3 w-24">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface-variant">Delivered</span>
+<span class="text-[11px] text-on-surface-variant">--:--</span>
+</div>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Items Summary -->
+<div class="lg:col-span-2">
+<h3 class="font-title-sm text-title-sm text-primary mb-4 border-b border-outline-variant pb-2">Order Summary</h3>
+<table class="w-full text-left font-body-md text-body-md">
+<thead class="bg-surface-container text-primary uppercase text-[10px] font-label-caps">
+<tr>
+<th class="p-3">Food Item</th>
+<th class="p-3 text-center">Quantity</th>
+<th class="p-3 text-right">Unit Price</th>
+<th class="p-3 text-right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-3 flex items-center gap-3">
+<div class="w-12 h-12 rounded bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional high-angle culinary shot of a heart-healthy hospital meal featuring steamed salmon with lemon wedges and a side of vibrant steamed broccoli and brown rice. The lighting is bright and clean, emphasizing freshness and nutritional value. The overall mood is clinical yet appetizing, presented on a simple white tray with minimalist flatware." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqocj5Dy_PVSWtZ6UyQDmPbMToCGgu60-MOeeP1BH4oi2P8hYL65RcPM3JNuX7tL8e-oTlOuGKSFHQmL4zHZF6HhQM5uzu9mxXbAyh5-eKkK_2CVxFQaEbXYw3n7RQZmGMsTBQ6kLEHb6Pq58s1GAKvXCHyzF-i-eXIt_jq2MSadRE3byqOl3fhXFHVwjTV-955HeBQYUU_vtOHmrNs6HsplEjXi6CtiauSwuZw2mjrVQHLFvWnoryulNc0JO1T_SdscNLyH1KMqM"/>
+</div>
+<span class="font-semibold">Grilled Salmon &amp; Steamed Broccoli</span>
+</td>
+<td class="p-3 text-center">1</td>
+<td class="p-3 text-right">₹450.00</td>
+<td class="p-3 text-right font-semibold">₹450.00</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-3 flex items-center gap-3">
+<div class="w-12 h-12 rounded bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A top-down studio photograph of a fresh hospital side salad in a clear glass bowl, featuring crisp romaine lettuce, cherry tomatoes, and cucumber slices. Soft, diffused overhead lighting highlights the dewy freshness of the vegetables. The background is a clean, neutral gray tone, maintaining a professional and institutional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDprgKIx3r3L2ObBzysughzDosArVpeurxZaB74zmNZm1GjhglHww3hAUr2hG7JvvVutpp4n8lOb77Gw8hYloDrE9ojLSylhUSgRPQVfq_Bl9Xn9NaBvNbXmk8NR_qnS4KOl4LndlNidg5Lsw7uXON7tZx3OVR9Ewcia-tcNJVPH7BVfI68wRxH-MhF1nH05A8xRdRoaGyWNZF_T5DG2ostQhTxLXGbUYMW2I18vVsrESETIZmyplV_R1KB9wgt2niW6rmwcCFrOE4"/>
+</div>
+<span class="font-semibold">Fresh Green Salad (Low Sodium)</span>
+</td>
+<td class="p-3 text-center">2</td>
+<td class="p-3 text-right">₹120.00</td>
+<td class="p-3 text-right font-semibold">₹240.00</td>
+</tr>
+</tbody>
+<tfoot>
+<tr class="bg-surface-container-low">
+<td class="p-3 text-right font-semibold text-primary" colspan="3">Subtotal</td>
+<td class="p-3 text-right font-bold text-primary">₹690.00</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<!-- Info Bento Column -->
+<div class="flex flex-col gap-4">
+<!-- Delivery Location -->
+<div class="p-4 bg-surface border border-outline-variant rounded-lg">
+<div class="flex items-center gap-2 mb-3 text-primary">
+<span class="material-symbols-outlined">location_on</span>
+<h3 class="font-title-sm text-title-sm">Delivery Location</h3>
+</div>
+<div class="text-on-surface-variant font-body-sm text-body-sm space-y-1">
+<p class="font-bold text-on-surface">Block B, Ward 4, Bed 12</p>
+<p>Central City Hospital (CCL)</p>
+<p>Patient: John Doe</p>
+</div>
+</div>
+<!-- Chef Note -->
+<div class="p-4 bg-tertiary-container text-on-tertiary-container rounded-lg border border-tertiary">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-[20px]">info</span>
+<p class="font-title-sm text-title-sm">Dietary Note</p>
+</div>
+<p class="text-body-sm font-body-sm opacity-90 italic">"Patient requested low sodium seasoning and no nuts in salad dressing."</p>
+</div>
+<!-- Support Action -->
+<button class="w-full py-3 px-4 border border-outline text-primary font-semibold rounded-lg flex items-center justify-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">support_agent</span>
+                                Contact Kitchen Support
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity / Logs (Asymmetric Bento Element) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="md:col-span-1 bg-surface border border-outline-variant rounded-lg p-stack-md">
+<h3 class="font-title-sm text-title-sm text-primary mb-4">Detailed Logs</h3>
+<div class="space-y-4">
+<div class="flex gap-3 relative before:absolute before:left-[9px] before:top-6 before:bottom-[-20px] before:w-[2px] before:bg-outline-variant last:before:hidden">
+<div class="w-5 h-5 rounded-full bg-primary-container flex-shrink-0 mt-1"></div>
+<div>
+<p class="text-body-sm font-semibold">Preparing your meal</p>
+<p class="text-[11px] text-on-surface-variant">12:20 PM - Chef initiated</p>
+</div>
+</div>
+<div class="flex gap-3 relative before:absolute before:left-[9px] before:top-6 before:bottom-[-20px] before:w-[2px] before:bg-outline-variant last:before:hidden">
+<div class="w-5 h-5 rounded-full bg-outline-variant flex-shrink-0 mt-1"></div>
+<div>
+<p class="text-body-sm font-semibold">Payment Confirmed</p>
+<p class="text-[11px] text-on-surface-variant">12:12 PM - Transaction ID: 092182</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="w-5 h-5 rounded-full bg-outline-variant flex-shrink-0 mt-1"></div>
+<div>
+<p class="text-body-sm font-semibold">Order Received</p>
+<p class="text-[11px] text-on-surface-variant">12:10 PM - System logged</p>
+</div>
+</div>
+</div>
+</div>
+<div class="md:col-span-2 relative h-48 md:h-auto rounded-lg overflow-hidden border border-outline-variant group">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10 flex flex-col justify-end p-gutter">
+<span class="px-2 py-1 bg-primary-container text-white w-fit rounded text-[10px] font-label-caps mb-2">Hospital Map View</span>
+<h4 class="text-white font-title-sm text-title-sm">Current Kitchen Station: Main Wing G1</h4>
+<p class="text-white/80 text-body-sm font-body-sm">The delivery personnel will travel 180m to reach Block B Ward 4.</p>
+</div>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="A clean, minimalist 3D floor plan illustration of a modern hospital wing. The layout shows clearly marked rooms, hallways, and a kitchen area. One section is highlighted with a soft blue glow to represent the active order location. The aesthetic is professional, architectural, and high-contrast, using a palette of white, light gray, and deep corporate blue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBumMwZujhSkylIkHDKTaHRBTxEvUQtw73GCIa2MBXwUI3U-aqU1mNBkhu0z5RCtc2rG97nJ3dkmZ-FVNgfS6WN7WDw7GUY18bjDdDpPMa3bIIexH0C6BnxEMo9grVcOZCbXiUY8aA32U9U6mZb-L1veXwD7mz8e6uEJ369RJ7nlOlBxvDIujpOcBAuzoaX-FnrgjEdHYmRxH_PKdHbOPBUgp8TyZEE455Nrgcgr7HJhTjdJNtnykPVf2lotEsaduWHDeOLnZrorqs"/>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation (Visible only on mobile) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant flex justify-around items-center h-16 z-50">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-label-caps">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="text-[10px] font-label-caps">Menu</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary font-bold">
+<span class="material-symbols-outlined" data-weight="fill">receipt_long</span>
+<span class="text-[10px] font-label-caps">Orders</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] font-label-caps">History</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-label-caps">Profile</span>
+</button>
+</div>
+<script>
+        // Simple micro-interaction for the progress pulse
+        setInterval(() => {
+            const pulseIcon = document.querySelector('.animate-pulse');
+            if(pulseIcon) {
+                pulseIcon.classList.toggle('scale-110');
+            }
+        }, 1000);
+    </script>
+</body></html>

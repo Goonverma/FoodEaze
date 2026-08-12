@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #003366 0%, #0066cc 100%);
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .auth-card h1 {
+            margin-bottom: 10px;
+        }
+
+        .auth-card p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #003366;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #003366;
+            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+        }
+
+        .password-strength {
+            margin-top: 8px;
+            height: 4px;
+            background-color: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s ease;
+        }
+
+        .strength-weak {
+            background-color: #dc3545;
+        }
+
+        .strength-medium {
+            background-color: #ffc107;
+        }
+
+        .strength-strong {
+            background-color: #28a745;
+        }
+
+        .strength-text {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .strength-text.success {
+            color: #28a745;
+        }
+
+        .strength-text.warning {
+            color: #ffc107;
+        }
+
+        .strength-text.error {
+            color: #dc3545;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .form-actions button {
+            flex: 1;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        .auth-footer a {
+            color: #003366;
+            font-weight: 600;
+        }
+
+        .form-error {
+            display: none;
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .success-message {
+            display: none;
+            padding: 15px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            color: #155724;
+            margin-bottom: 20px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-secondary">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">🍽️</div>
+                <h1>Create Account</h1>
+                <p>Join FoodEaze and start ordering delicious meals</p>
+            </div>
+
+            <div class="success-message" id="successMessage"></div>
+
+            <form id="registrationForm" onsubmit="handleRegistration(event)">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                    <div class="form-error" id="fullNameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <div class="form-error" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number (10 digits) *</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter your 10-digit phone number"
+                        maxlength="10" required>
+                    <div class="form-error" id="phoneError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="wardNumber">Ward Number *</label>
+                    <input type="text" id="wardNumber" name="wardNumber" placeholder="e.g., A1, B2" required>
+                    <div class="form-error" id="wardNumberError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="roomNumber">Room Number *</label>
+                    <input type="text" id="roomNumber" name="roomNumber" placeholder="e.g., 101, 205" required>
+                    <div class="form-error" id="roomNumberError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" placeholder="Enter a password" required
+                        oninput="checkPasswordStrength()">
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                    </div>
+                    <div class="strength-text" id="strengthText"></div>
+                    <div class="form-error" id="passwordError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password *</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword"
+                        placeholder="Confirm your password" required>
+                    <div class="form-error" id="confirmPasswordError"></div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="registerBtn">Create Account</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                </div>
+            </form>
+
+            <div class="auth-footer">
+                Already have an account? <a href="login.html">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        // Check password strength
+        function checkPasswordStrength() {
+            const password = document.getElementById('password').value;
+            const strength = validatePasswordStrength(password);
+            const bar = document.getElementById('passwordStrengthBar');
+            const text = document.getElementById('strengthText');
+
+            bar.className = 'password-strength-bar';
+            text.className = 'strength-text';
+            text.classList.remove('success', 'warning', 'error');
+            text.style.color = '';
+
+            if (strength.score === 0) {
+                bar.style.width = '0%';
+                text.textContent = '';
+                return;
+            }
+
+            if (strength.valid) {
+                bar.style.width = '100%';
+                bar.classList.add('strength-strong');
+                text.textContent = '✓ ' + strength.message;
+                text.classList.add('success');
+                return;
+            }
+
+            if (strength.score === 25) {
+                bar.style.width = '25%';
+                bar.classList.add('strength-weak');
+                text.textContent = '⚠️ ' + strength.message;
+                text.classList.add('error');
+                return;
+            }
+
+            if (strength.score === 50) {
+                bar.style.width = '50%';
+                bar.classList.add('strength-medium');
+                text.textContent = '⚠️ ' + strength.message;
+                text.classList.add('warning');
+                return;
+            }
+
+            if (strength.score === 75) {
+                bar.style.width = '75%';
+                bar.classList.add('strength-medium');
+                text.textContent = '⚠️ ' + strength.message;
+                text.classList.add('warning');
+                return;
+            }
+
+            bar.style.width = '100%';
+            bar.classList.add('strength-strong');
+            text.textContent = '✓ ' + strength.message;
+            text.classList.add('success');
+        }
+
+        // Handle registration
+        async function handleRegistration(event) {
+            event.preventDefault();
+            const form = document.getElementById('registrationForm');
+            clearFormErrors(form);
+
+            const inputs = {
+                fullName: document.getElementById('fullName'),
+                email: document.getElementById('email'),
+                phone: document.getElementById('phone'),
+                wardNumber: document.getElementById('wardNumber'),
+                roomNumber: document.getElementById('roomNumber'),
+                password: document.getElementById('password'),
+                confirmPassword: document.getElementById('confirmPassword')
+            };
+
+            const formData = {
+                fullName: sanitizeString(inputs.fullName.value),
+                email: sanitizeString(inputs.email.value).toLowerCase(),
+                phone: sanitizeString(inputs.phone.value),
+                wardNumber: sanitizeString(inputs.wardNumber.value),
+                roomNumber: sanitizeString(inputs.roomNumber.value),
+                password: inputs.password.value,
+                confirmPassword: inputs.confirmPassword.value
+            };
+
+            const errors = {};
+
+            if (!formData.fullName) {
+                errors.fullName = 'Full name is required';
+            } else if (!validateName(formData.fullName)) {
+                errors.fullName = 'Full name must be 3-50 letters and spaces only';
+            }
+
+            if (!formData.email) {
+                errors.email = 'Email is required';
+            } else if (!validateEmail(formData.email)) {
+                errors.email = 'Please enter a valid email address';
+            }
+
+            if (!formData.phone) {
+                errors.phone = 'Phone number is required';
+            } else if (!validatePhoneNumber(formData.phone)) {
+                errors.phone = 'Phone number must be exactly 10 digits';
+            }
+
+            if (!formData.wardNumber) {
+                errors.wardNumber = 'Ward number is required';
+            } else if (!validateWardNumber(formData.wardNumber)) {
+                errors.wardNumber = 'Ward number may contain letters, numbers, and hyphen only';
+            }
+
+            if (!formData.roomNumber) {
+                errors.roomNumber = 'Room number is required';
+            } else if (!validateRoomNumber(formData.roomNumber)) {
+                errors.roomNumber = 'Room number may contain letters, numbers, and hyphen only';
+            }
+
+            const passwordStrength = validatePasswordStrength(formData.password);
+            if (!formData.password) {
+                errors.password = 'Password is required';
+            } else if (!passwordStrength.valid) {
+                errors.password = passwordStrength.message;
+            }
+
+            if (!formData.confirmPassword) {
+                errors.confirmPassword = 'Please confirm your password';
+            } else if (formData.password !== formData.confirmPassword) {
+                errors.confirmPassword = 'Passwords do not match';
+            }
+
+            Object.keys(inputs).forEach(field => {
+                const input = inputs[field];
+                if (errors[field]) {
+                    setFieldState(input, false, errors[field]);
+                } else {
+                    setFieldState(input, true, '');
+                }
+            });
+
+            if (Object.keys(errors).length > 0) {
+                focusFirstInvalidField(form);
+                return;
+            }
+
+            const registerBtn = document.getElementById('registerBtn');
+            registerBtn.disabled = true;
+            registerBtn.textContent = 'Creating account...';
+
+            const result = await registerUser(
+                formData.fullName,
+                formData.email,
+                formData.phone,
+                formData.wardNumber,
+                formData.roomNumber,
+                formData.password
+            );
+
+            registerBtn.disabled = false;
+            registerBtn.textContent = 'Create Account';
+
+            if (result.success) {
+                const successMsg = document.getElementById('successMessage');
+                successMsg.textContent = 'Registration completed successfully. Redirecting to login...';
+                successMsg.classList.add('show');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            } else {
+                showNotification(result.message, 'danger');
+            }
+        }
+
+        // Setup on page load
+        window.addEventListener('load', () => {
+            setupAuthRedirects();
+        });
+    </script>
+</body>
+
+</html>

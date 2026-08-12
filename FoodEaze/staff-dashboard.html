@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze - Staff Portal</div>
+            <ul class="nav-menu">
+                <li><a href="staff-dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="manage-orders.html">Manage Orders</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="user-menu-trigger" onclick="toggleUserMenu()">👤 Staff</button>
+                <div id="userMenu"
+                    style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; min-width: 200px;">
+                    <a href="#" onclick="logoutFromDashboard()"
+                        style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-menu">
+                <a href="staff-dashboard.html" class="sidebar-item active">
+                    <span>📊 Dashboard</span>
+                </a>
+                <a href="manage-orders.html" class="sidebar-item">
+                    <span>📋 Manage Orders</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="content-header">
+                <h1>Staff Dashboard</h1>
+                <p>Real-time order management and kitchen insights</p>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card loading">
+                    <div class="stat-skeleton"></div>
+                </div>
+                <div class="stat-card loading">
+                    <div class="stat-skeleton"></div>
+                </div>
+                <div class="stat-card loading">
+                    <div class="stat-skeleton"></div>
+                </div>
+                <div class="stat-card loading">
+                    <div class="stat-skeleton"></div>
+                </div>
+                <div class="stat-card loading">
+                    <div class="stat-skeleton"></div>
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="card" style="margin-top: 30px;">
+                <div class="card-header">
+                    <h3>Recent Orders</h3>
+                </div>
+                <div class="recent-orders">
+                    <table class="orders-table" id="recentOrdersTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Patient Name</th>
+                                <th>Ward/Room</th>
+                                <th>Items</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr>
+                                <td colspan="6" class="text-center p-lg">
+                                    <div class="spinner"></div> Loading orders...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Notification -->
+            <div id="notificationContainer"></div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FoodEaze</h4>
+                    <p>Hospital Food Ordering & Queue Management</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Staff Portal</h4>
+                    <ul>
+                        <li><a href="staff-dashboard.html">Dashboard</a></li>
+                        <li><a href="manage-orders.html">Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: support@foodeaze.com<br>Phone: +91-xxx-xxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodEaze - CCL Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/orders.js"></script>
+    <script src="js/staff.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        // Initialize page
+        window.addEventListener('load', () => {
+            loadStaffDashboardData();
+            setupAuthRedirects();
+            // Auto-refresh every 30 seconds
+            setInterval(() => loadStaffDashboardData(), 30000);
+        });
+
+        // Load staff dashboard data
+        async function loadStaffDashboardData() {
+            const result = await getStaffAnalytics();
+
+            if (result.success) {
+                renderStaffStatistics(result.analytics);
+                loadRecentOrders();
+            }
+        }
+
+        // Render statistics
+        function renderStaffStatistics(analytics) {
+            const statsGrid = document.getElementById('statsGrid');
+
+            const stats = [
+                {
+                    title: 'Total Orders',
+                    value: analytics.totalOrders,
+                    color: 'primary',
+                    icon: '../images/orders.transparent.png'
+                },
+                {
+                    title: 'Pending Orders',
+                    value: analytics.ordersPerStatus.Pending || 0,
+                    color: 'warning',
+                    icon: '../images/pending.transparent.png'
+                },
+                {
+                    title: 'Preparing',
+                    value: analytics.ordersPerStatus.Preparing || 0,
+                    color: 'info',
+                    icon: '../images/preparing.transparent.png'
+                },
+                {
+                    title: 'Ready for Pickup',
+                    value: analytics.ordersPerStatus.Ready || 0,
+                    color: 'success',
+                    icon: '../images/delivered.transparent.png'
+                },
+                {
+                    title: 'Total Revenue',
+                    value: '₹' + analytics.totalRevenue,
+                    color: 'primary',
+                    icon: '../images/menu.transparent.png'
+                }
+            ];
+
+            statsGrid.innerHTML = stats.map(stat => `
+                <div class="stat-card stat-${stat.color}">
+                    <div class="stat-icon"><img src="${stat.icon}" alt="" style="width: 70px; height: 70px; object-fit: contain; display: block; margin: 0 auto;"></div>
+                    <div class="stat-content">
+                        <div class="stat-value">${stat.value}</div>
+                        <div class="stat-label">${stat.title}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load recent orders
+        async function loadRecentOrders() {
+            const result = await getRecentOrders(10);
+
+            if (result.success) {
+                renderRecentOrders(result.orders);
+            }
+        }
+
+        // Render recent orders
+        function renderRecentOrders(orders) {
+            const tbody = document.getElementById('ordersTableBody');
+
+            if (orders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center p-lg">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">✓</div>
+                            <p>No orders yet</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td>${order.orderId}</td>
+                    <td>${order.userName}</td>
+                    <td>${order.wardNumber} / ${order.roomNumber}</td>
+                    <td>${order.items.map(i => i.name).join(', ')}</td>
+                    <td><span class="order-status ${getOrderStatusBadgeClass(order.status)}">${order.status}</span></td>
+                    <td>
+                        <select onchange="updateOrderStatus('${order.orderId}', this.value)" style="padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="">-- Update --</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Preparing">Preparing</option>
+                            <option value="Ready">Ready</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Update order status
+        async function updateOrderStatus(orderId, newStatus) {
+            if (!newStatus) return;
+
+            const result = await updateOrderStatusStaff(orderId, newStatus);
+
+            if (result.success) {
+                showNotification(`Order updated to ${newStatus}`, 'success');
+                loadRecentOrders();
+            } else {
+                showNotification(result.message, 'danger');
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} show`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '100px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.maxWidth = '400px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(alertDiv);
+
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Close user menu on outside click
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('userMenu');
+            if (!e.target.closest('.user-menu-trigger') && !e.target.closest('#userMenu')) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

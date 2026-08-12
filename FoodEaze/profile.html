@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - FoodEaze</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">🍽️ FoodEaze</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="menu.html">Order Food</a></li>
+                <li><a href="order-history.html">History</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="btn btn-accent">🍣 Cart</a>
+                <button class="user-menu-trigger" onclick="toggleUserMenu()">👤 Account</button>
+                <div id="userMenu"
+                    style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; min-width: 200px;">
+                    <a href="profile.html"
+                        style="display: block; padding: 12px 16px; border-bottom: 1px solid #ddd; text-decoration: none;">👤
+                        Profile</a>
+                    <a href="#" onclick="logoutFromDashboard()"
+                        style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="dashboard-wrapper" style="grid-template-columns: 1fr;">
+        <main class="dashboard-content">
+            <div class="content-header">
+                <h1>User Profile</h1>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1000px;">
+                <!-- Profile Info -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Profile Information</h3>
+                    </div>
+                    <div class="profile-header" style="text-align: center; margin-bottom: 20px;">
+                        <div
+                            style="width: 80px; height: 80px; margin: 0 auto 15px; background: linear-gradient(135deg, #003366, #0066cc); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 36px;">
+                            👤</div>
+                        <h3 id="profileName"></h3>
+                        <p id="profileEmail"></p>
+                    </div>
+
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" disabled style="background: #f5f5f5;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" disabled style="background: #f5f5f5;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" disabled style="background: #f5f5f5;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="wardNumber">Ward Number</label>
+                            <input type="text" id="wardNumber" disabled style="background: #f5f5f5;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roomNumber">Room Number</label>
+                            <input type="text" id="roomNumber" disabled style="background: #f5f5f5;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dietPreference">Diet Preference</label>
+                            <input type="text" id="dietPreference" disabled style="background: #f5f5f5;">
+                        </div>
+
+                        <a href="diet-preference.html" class="btn btn-primary btn-full">Change Diet Preference</a>
+                    </form>
+                </div>
+
+                <!-- Account Settings -->
+                <div>
+                    <!-- Change Password -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Change Password</h3>
+                        </div>
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label for="oldPassword">Current Password</label>
+                                <input type="password" id="oldPassword" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" required>
+                                <div class="password-strength">
+                                    <div class="strength-bar" id="strengthBar"></div>
+                                </div>
+                                <small id="strengthText">Strength: weak</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" id="confirmPassword" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-full">Update Password</button>
+                        </form>
+                    </div>
+
+                    <!-- Logout -->
+                    <div class="card" style="margin-top: 20px;">
+                        <div class="card-header">
+                            <h3>Account Actions</h3>
+                        </div>
+                        <button class="btn btn-danger btn-full"
+                            onclick="if(confirm('Are you sure you want to logout?')) { logoutFromDashboard(); }">🚪
+                            Logout</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification -->
+            <div id="notificationContainer"></div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FoodEaze</h4>
+                    <p>Making hospital food ordering easy and convenient.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="order-history.html">Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: support@foodeaze.com<br>Phone: +91-xxx-xxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodEaze - CCL Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        // Initialize page
+        window.addEventListener('load', async () => {
+            const userData = await getCurrentUserData();
+            if (userData) {
+                populateProfile(userData);
+            }
+            setupAuthRedirects();
+            setupPasswordForm();
+        });
+
+        // Populate profile
+        function populateProfile(userData) {
+            document.getElementById('profileName').textContent = userData.name;
+            document.getElementById('profileEmail').textContent = userData.email;
+            document.getElementById('fullName').value = userData.name;
+            document.getElementById('email').value = userData.email;
+            document.getElementById('phone').value = userData.phone;
+            document.getElementById('wardNumber').value = userData.wardNumber;
+            document.getElementById('roomNumber').value = userData.roomNumber;
+            document.getElementById('dietPreference').value = userData.dietPreference || 'Normal Diet';
+        }
+
+        // Setup password form
+        function setupPasswordForm() {
+            const form = document.getElementById('passwordForm');
+            const newPasswordInput = document.getElementById('newPassword');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+
+            // Real-time password strength check
+            newPasswordInput.addEventListener('input', checkPasswordStrength);
+
+            // Form submission
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const oldPassword = document.getElementById('oldPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                // Validate
+                if (newPassword.length < 6) {
+                    showNotification('Password must be at least 6 characters', 'warning');
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    showNotification('Passwords do not match', 'warning');
+                    return;
+                }
+
+                // Change password
+                const btn = form.querySelector('button');
+                btn.disabled = true;
+                btn.textContent = 'Updating...';
+
+                const result = await changePassword(newPassword);
+
+                btn.disabled = false;
+                btn.textContent = 'Update Password';
+
+                if (result.success) {
+                    showNotification('Password updated successfully!', 'success');
+                    form.reset();
+                    document.getElementById('strengthBar').style.width = '0%';
+                    document.getElementById('strengthText').textContent = 'Strength: weak';
+                } else {
+                    showNotification(result.message, 'danger');
+                }
+            });
+        }
+
+        // Check password strength
+        function checkPasswordStrength() {
+            const password = document.getElementById('newPassword').value;
+            const strengthBar = document.getElementById('strengthBar');
+            const strengthText = document.getElementById('strengthText');
+
+            if (password.length === 0) {
+                strengthBar.style.width = '0%';
+                strengthText.textContent = 'Strength: weak';
+                return;
+            }
+
+            let strength = 0;
+            if (password.length >= 6) strength += 25;
+            if (password.length >= 8) strength += 25;
+            if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength += 25;
+            if (/[0-9]/.test(password)) strength += 12.5;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 12.5;
+
+            strengthBar.style.width = strength + '%';
+            if (strength < 40) {
+                strengthBar.style.backgroundColor = '#dc3545';
+                strengthText.textContent = 'Strength: weak';
+            } else if (strength < 70) {
+                strengthBar.style.backgroundColor = '#ffc107';
+                strengthText.textContent = 'Strength: medium';
+            } else {
+                strengthBar.style.backgroundColor = '#28a745';
+                strengthText.textContent = 'Strength: strong';
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} show`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '100px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.maxWidth = '400px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(alertDiv);
+
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Close user menu on outside click
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('userMenu');
+            if (!e.target.closest('.user-menu-trigger') && !e.target.closest('#userMenu')) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CCL Hospital - Healthy Food Menu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#5b4300",
+                    "inverse-surface": "#2e3132",
+                    "error-container": "#ffdad6",
+                    "secondary": "#5d5f5f",
+                    "tertiary": "#291c00",
+                    "on-background": "#191c1d",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdf9e",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#003366",
+                    "on-primary-container": "#799dd6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f3f4f5",
+                    "on-secondary-fixed-variant": "#454747",
+                    "on-surface": "#191c1d",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "on-primary-fixed": "#001b3c",
+                    "on-primary-fixed-variant": "#1f477b",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-tertiary-container": "#c49400",
+                    "surface-container-high": "#e7e8e9",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "outline": "#737780",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-error": "#ffffff",
+                    "surface-bright": "#f8f9fa",
+                    "tertiary-fixed-dim": "#fabd00",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a7c8ff",
+                    "surface-variant": "#e1e3e4",
+                    "secondary-container": "#dfe0e0",
+                    "outline-variant": "#c3c6d1",
+                    "surface": "#f8f9fa",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#d5e3ff",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "surface-container": "#edeeef",
+                    "primary": "#001e40",
+                    "surface-tint": "#3a5f94",
+                    "tertiary-container": "#433000",
+                    "on-surface-variant": "#43474f",
+                    "background": "#f8f9fa",
+                    "on-secondary-container": "#616363",
+                    "on-tertiary-fixed": "#261a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-lg": "2rem",
+                    "margin-mobile": "1rem",
+                    "stack-sm": "0.5rem",
+                    "gutter": "1.5rem",
+                    "stack-md": "1rem",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "title-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "title-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-stack-md gap-stack-sm bg-primary dark:bg-primary h-screen w-64 z-50">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 bg-on-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">festival</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-on-primary leading-tight">CCL Hospital</h1>
+<p class="text-[10px] text-primary-fixed-dim uppercase tracking-wider">Food &amp; Queue Management</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<!-- Active Tab: Menu -->
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-semibold transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-body-md text-body-md">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-body-md text-body-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-md text-body-md">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed-dim hover:text-on-primary hover:bg-on-primary-fixed-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md text-body-md">Profile</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-2 pt-6 border-t border-on-primary-fixed-variant/20">
+<button class="w-full bg-on-tertiary-container text-tertiary-fixed font-bold py-3 rounded-lg mb-4 hover:opacity-90 transition-opacity">
+                Place New Order
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-primary-fixed-dim hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md text-body-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-primary-fixed-dim hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-gutter h-16 sticky top-0 z-40 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-gutter flex-1">
+<h2 class="font-display-lg text-display-lg text-primary-container dark:text-primary-fixed whitespace-nowrap">CCL Hospital Food &amp; Queue</h2>
+<div class="relative w-full max-w-md ml-8">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-on-surface focus:ring-2 focus:ring-primary-container" placeholder="Search for food, diet plans..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="flex items-center gap-3 ml-4 cursor-pointer">
+<div class="text-right">
+<p class="font-title-sm text-title-sm text-primary leading-tight">Profile</p>
+<p class="text-xs text-on-surface-variant">Ward 4B, Bed 12</p>
+</div>
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" data-alt="A professional headshot of a female doctor in a hospital setting, smiling warmly with soft ambient hospital lighting, clean modern aesthetic, high contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLJT6eNAcpzMJb6Z7DKcEME_g471Y8R_S4U54XooqUE2yGIp4Zi0soWHWiVzSfcA1cOvuUO2cB0jzO-lLKMjUHT7fiyTqx_rOkpI4tfbkH7Ppn_HAQURUXAAPAFExKkVAwX6cLSRq1v9LkJXSAcQLhdGVPo6s935NUplIV-8d67P5QwHQRBp5GnxxqJW8FLXldfyLuFnyQoJ5axJjbaQx7_sVzb-BgQsbQTb8FTYLzWLCbpzNgyolgbwLpsGj379AEMm5dB_yNwDI"/>
+</div>
+</div>
+</header>
+<!-- Menu Filters & Section Header -->
+<div class="p-gutter">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-stack-lg mb-8">
+<div>
+<h3 class="font-display-lg text-display-lg text-primary mb-2">Patient Menu</h3>
+<p class="text-on-surface-variant font-body-md">Fresh, nutritious meals tailored for your recovery.</p>
+</div>
+<div class="flex flex-wrap gap-stack-sm">
+<button class="px-4 py-2 bg-primary-container text-on-primary-container rounded-lg font-title-sm">All Meals</button>
+<button class="px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-lg font-title-sm hover:bg-surface-container-highest transition-colors">Breakfast</button>
+<button class="px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-lg font-title-sm hover:bg-surface-container-highest transition-colors">Lunch</button>
+<button class="px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-lg font-title-sm hover:bg-surface-container-highest transition-colors">Dinner</button>
+<div class="w-px h-8 bg-outline-variant mx-2"></div>
+<button class="px-4 py-2 border border-outline rounded-lg flex items-center gap-2 font-title-sm">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Diet Filters
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout for Menu Categories -->
+<div class="space-y-12">
+<!-- Breakfast Section -->
+<section>
+<div class="flex items-center gap-4 mb-6">
+<div class="p-2 bg-tertiary-fixed rounded-lg">
+<span class="material-symbols-outlined text-on-tertiary-fixed" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary">Breakfast <span class="text-on-surface-variant font-normal text-body-md ml-2">(07:00 AM - 09:30 AM)</span></h4>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Breakfast Card 1: Poha -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col group hover:shadow-lg transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A top-down professional food photograph of a vibrant yellow Poha dish garnished with fresh green coriander and lemon slices. The lighting is bright and airy, suggesting a morning breakfast setting in a clean, modern kitchen with soft shadows and rich textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrXS4lw4pz5fmG70MmI2AR0JvTFxGXKYES-2srRYsmxcI2I7D2K2Ypg9Qq_EI2rUhZBObKUsjmRIrZwajJ-acgcZVREpDhtRZaD46iBj2OfUGsVkGsbR-HjjyUHPgxy9CNgOxi5lo2ycwryHa9u9Ix_NRQLIfb3gQdZcDiJqbW59x1zi-0AvL2-lesiDfJMbGUU9V_PgfQzFVOMFB6NwgNyM7POTCUKduchR8pgAzlxNnfdi_TJzNfWKFtMLl6MDTexXr8ToXS4-U"/>
+<div class="absolute top-3 right-3 bg-primary text-on-primary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">Low Fat</div>
+</div>
+<div class="p-stack-md flex-1">
+<div class="flex justify-between items-start mb-2">
+<h5 class="font-title-sm text-title-sm text-primary">Classic Poha</h5>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[11px] font-bold">VEG</span>
+</div>
+<div class="flex gap-4 mb-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+<span class="text-body-sm text-on-surface-variant">210 kcal</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">fitness_center</span>
+<span class="text-body-sm text-on-surface-variant">4g Protein</span>
+</div>
+</div>
+<div class="mt-auto flex items-center justify-between pt-4 border-t border-outline-variant">
+<div class="flex items-center bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant">
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">remove</span></button>
+<span class="px-3 py-1 font-bold text-sm">1</span>
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">add</span></button>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-bold text-sm hover:brightness-110 active:scale-95 transition-all">Add to Tray</button>
+</div>
+</div>
+</div>
+<!-- Breakfast Card 2: Upma -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col group hover:shadow-lg transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A macro food shot of savory semolina Upma with visible colorful peas, carrots, and mustard seeds. The dish is presented in a white ceramic bowl against a light grey background with warm sunlight filtering from a window, creating a comforting healthcare breakfast atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPimHCii3kD_nPyGtWFU5aBDbESbiQEuWG16lTPUX6bWSySxeaqVB3gc82JijzElzX71-ZqDULOjg1mIbZnK_OxzubieFc3fbMhxXoVnlCxwehlojRUlsSt2DcbpyIvbnjbB-_OSb-U0t-OWFzki41cyxq_x_sNJy2q0f0xTFBZ0dTrHb84pVEmK-3VMYCZRleM-CqtJQQ5wuRS5oN6bMTJf7AEkxdY77635KjVkvYrR_jE_KHo3LYm6w2-ViYVeW6HI_vPThrdKo"/>
+<div class="absolute top-3 right-3 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">Digestive Aid</div>
+</div>
+<div class="p-stack-md flex-1">
+<div class="flex justify-between items-start mb-2">
+<h5 class="font-title-sm text-title-sm text-primary">Vegetable Upma</h5>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[11px] font-bold">VEG</span>
+</div>
+<div class="flex gap-4 mb-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+<span class="text-body-sm text-on-surface-variant">245 kcal</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">fitness_center</span>
+<span class="text-body-sm text-on-surface-variant">6g Protein</span>
+</div>
+</div>
+<div class="mt-auto flex items-center justify-between pt-4 border-t border-outline-variant">
+<div class="flex items-center bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant">
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">remove</span></button>
+<span class="px-3 py-1 font-bold text-sm">1</span>
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">add</span></button>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-bold text-sm hover:brightness-110 transition-all">Add to Tray</button>
+</div>
+</div>
+</div>
+<!-- Breakfast Card 3: Idli -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col group hover:shadow-lg transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist presentation of soft white steamed Idlis served with a bowl of lentil sambhar. The scene is bright and clinical, emphasizing hygiene and health with a pure white background and gentle side lighting that highlights the texture of the steamed rice cakes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvkIWcutkIPXMwCpwK3OeaMYLF4_-widemaW64IdAmpMjuDtbwF0ncQU6Nk-6Y6w_2Wn3lFY9PMXJrMHs1mIQRSiyAdwoEx_1k_hvMaMW07zqPANnvRAXIHdz4RaLSKnUythUHcNztm_NTbVGxi4xvzglIUa30QTS9WmV6CC2tAUprcGoE7qLVaPQyPN13Z2ubnsvMlMPROg1t7Zv_Qj50G47GYUZpiTs0kjXUijX72uKelHlrQ-_Wj1Q29ZiKCycTe-REQpQyL68"/>
+<div class="absolute top-3 right-3 bg-secondary text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">Gluten Free</div>
+</div>
+<div class="p-stack-md flex-1">
+<div class="flex justify-between items-start mb-2">
+<h5 class="font-title-sm text-title-sm text-primary">Idli Sambhar</h5>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[11px] font-bold">VEG</span>
+</div>
+<div class="flex gap-4 mb-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+<span class="text-body-sm text-on-surface-variant">180 kcal</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">fitness_center</span>
+<span class="text-body-sm text-on-surface-variant">8g Protein</span>
+</div>
+</div>
+<div class="mt-auto flex items-center justify-between pt-4 border-t border-outline-variant">
+<div class="flex items-center bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant">
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">remove</span></button>
+<span class="px-3 py-1 font-bold text-sm">1</span>
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">add</span></button>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-bold text-sm hover:brightness-110 transition-all">Add to Tray</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Special Diet Banner -->
+<section class="bg-primary rounded-xl p-8 text-on-primary relative overflow-hidden">
+<div class="relative z-10 max-w-2xl">
+<h4 class="font-display-lg text-display-lg mb-2">Personalized Nutrition</h4>
+<p class="text-primary-fixed-dim font-body-md mb-6">Our nutritionists have pre-filtered these meals based on your clinical requirements. Please select from the 'Special Diet' category if you have specific restrictions.</p>
+<div class="flex gap-4">
+<span class="flex items-center gap-2 bg-on-primary-fixed-variant px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                Diabetic Friendly
+                            </span>
+<span class="flex items-center gap-2 bg-on-primary-fixed-variant px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                Low Salt (Hypertension)
+                            </span>
+</div>
+</div>
+<div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-20 pointer-events-none">
+<span class="material-symbols-outlined text-[200px] absolute -right-10 -bottom-10 rotate-12">clinical_notes</span>
+</div>
+</section>
+<!-- Lunch Section -->
+<section>
+<div class="flex items-center gap-4 mb-6">
+<div class="p-2 bg-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary">Balanced Lunch <span class="text-on-surface-variant font-normal text-body-md ml-2">(12:30 PM - 02:30 PM)</span></h4>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Lunch Card 1: Veg Thali -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col group hover:shadow-lg transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A professional hospital thali lunch set on a clean tray. Includes small bowls of dal, seasonal vegetables, a portion of brown rice, and two rotis. The lighting is bright and corporate, focusing on the balanced portion sizes and nutritional completeness of the meal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmlcQ-4V-3LZH_2mD9jh-G5UE2WT_2ySmUeZUi-GIUpP_Xa67xz46yPSlhX5XyS5UTyf5M-cAXMwrWJjxjYtY573DR6lPdy5IcNf12lqmMLA6VrOw_zYb8GYtULBebplIwjrzA6Dz7lfya8xotjfT6cwGJyrShyPhfiMbbE9L7Emf55PkYizZWY0QgB4eLWeIvabFsS0Mx0sXFE0yo3iy-qp09a2W8z25wvIT0iDCiYD-HTuizDil8F4MRJStSgeG1q32PhJi5S6Q"/>
+<div class="absolute top-3 right-3 bg-primary text-on-primary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">High Fiber</div>
+</div>
+<div class="p-stack-md flex-1">
+<div class="flex justify-between items-start mb-2">
+<h5 class="font-title-sm text-title-sm text-primary">Standard Veg Thali</h5>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[11px] font-bold">VEG</span>
+</div>
+<div class="flex gap-4 mb-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+<span class="text-body-sm text-on-surface-variant">520 kcal</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">fitness_center</span>
+<span class="text-body-sm text-on-surface-variant">14g Protein</span>
+</div>
+</div>
+<div class="mt-auto flex items-center justify-between pt-4 border-t border-outline-variant">
+<div class="flex items-center bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant">
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">remove</span></button>
+<span class="px-3 py-1 font-bold text-sm">1</span>
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">add</span></button>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-bold text-sm hover:brightness-110 transition-all">Add to Tray</button>
+</div>
+</div>
+</div>
+<!-- Special Diet: Diabetic Diet -->
+<div class="bg-surface-container-lowest border-2 border-on-tertiary-container rounded-lg overflow-hidden flex flex-col group hover:shadow-lg transition-all duration-300 relative">
+<div class="absolute -left-1 top-4 bg-on-tertiary-container text-tertiary-fixed px-3 py-1 rounded-r-full text-[10px] font-bold uppercase tracking-widest z-10 shadow-md">Special Diet</div>
+<div class="relative h-48 opacity-90">
+<img class="w-full h-full object-cover" data-alt="A low glycemic index diabetic meal featuring grilled paneer cubes, sautéed green beans, and a small portion of quinoa. The photograph is shot in a soft, bright studio setting with neutral tones, highlighting the health-focused and portion-controlled nature of the medical diet." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwlxj2Q7o1kK5eMY8dkEbP-9Qav6QYFUAoDYw8JBr-rbLAzUHOIKhoe3tZLRt0xIrFQE-VLnLe_FW7RnW5N1mpvzsE9U1UnSP3od-1Fu-EkG61g2uaj3oRuVGs_-tA_e_W_sEybDhsPawVwamg5WAWVhnk77RiD2jKbbzty348loT-5Jv6P7HV8xbfS96bqrJn7yOfLxM72QkKCY6UH4mPqlSURQXx_HLvMJNBNyF0BmvMjOOuTObmvgd1xGQdCLcdfy_bpwxaJxE"/>
+</div>
+<div class="p-stack-md flex-1">
+<div class="flex justify-between items-start mb-2">
+<h5 class="font-title-sm text-title-sm text-primary">Diabetic Paneer Meal</h5>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[11px] font-bold">VEG</span>
+</div>
+<div class="flex gap-4 mb-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+<span class="text-body-sm text-on-surface-variant">380 kcal</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">fitness_center</span>
+<span class="text-body-sm text-on-surface-variant">18g Protein</span>
+</div>
+</div>
+<p class="text-[11px] text-on-surface-variant mb-4 bg-tertiary-fixed/30 p-2 rounded italic">Sugar-free, Low glycemic index, tailored for blood sugar management.</p>
+<div class="mt-auto flex items-center justify-between pt-4 border-t border-outline-variant">
+<div class="flex items-center bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant">
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">remove</span></button>
+<span class="px-3 py-1 font-bold text-sm">1</span>
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">add</span></button>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-bold text-sm hover:brightness-110 transition-all">Add to Tray</button>
+</div>
+</div>
+</div>
+<!-- Beverage Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col group hover:shadow-lg transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A serene shot of a steaming cup of green tea and a glass of warm turmeric milk on a hospital bedside table. The lighting is warm and comforting, with a soft blur on the hospital room background, creating a sense of wellness and recovery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHvHFXPwVAYp-kUdtTKKMLaSepfNBx90MwHf0eQ7FNzVAZwoMw5I9ZwSLGoSQ-tmvx50O0H5FmU7kOk1WuvrhHyal39eTCHlOVHqmbNpqwxB48phjAMW8yXNUQOo_PYhx3FYvMk9-bUrQdYK_ymsl9_kx5eOj4wDB34HDh4j2MjCVD8BEqWXw2CRohdoE9UIAEsNTACcyPjpNI9GkkR5iQWmOrOHAJH8DZKztIVCd41heCvXiUkSfJqmQ5Eytc2fUjZhuKNw-8SYc"/>
+<div class="absolute top-3 right-3 bg-secondary text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">Beverage</div>
+</div>
+<div class="p-stack-md flex-1">
+<div class="flex justify-between items-start mb-2">
+<h5 class="font-title-sm text-title-sm text-primary">Detox Green Tea</h5>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[11px] font-bold">VEG</span>
+</div>
+<div class="flex gap-4 mb-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+<span class="text-body-sm text-on-surface-variant">5 kcal</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">fitness_center</span>
+<span class="text-body-sm text-on-surface-variant">0g Protein</span>
+</div>
+</div>
+<div class="mt-auto flex items-center justify-between pt-4 border-t border-outline-variant">
+<div class="flex items-center bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant">
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">remove</span></button>
+<span class="px-3 py-1 font-bold text-sm">1</span>
+<button class="px-2 py-1 hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">add</span></button>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-bold text-sm hover:brightness-110 transition-all">Add to Tray</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Float FAB for Tray (Conditional) -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="bg-on-tertiary-container text-tertiary-fixed p-4 rounded-full shadow-2xl flex items-center gap-3 hover:scale-105 transition-transform duration-200">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">shopping_basket</span>
+<span class="font-bold pr-2">View Tray (2 Items)</span>
+</button>
+</div>
+<!-- Footer -->
+<footer class="mt-12 p-gutter bg-surface-container-low border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-body-sm text-on-surface-variant">© 2024 CCL Hospital Food Management System. All nutritional values are approximate.</p>
+<div class="flex gap-6">
+<a class="text-body-sm text-primary hover:underline" href="#">Nutritional Guidelines</a>
+<a class="text-body-sm text-primary hover:underline" href="#">Feedback</a>
+<a class="text-body-sm text-primary hover:underline" href="#">Kitchen Safety Standards</a>
+</div>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', function() {
+                this.classList.add('opacity-80');
+            });
+            button.addEventListener('mouseup', function() {
+                this.classList.remove('opacity-80');
+            });
+        });
+
+        // Simple tray counter logic
+        let trayCount = 2;
+        const trayBtn = document.querySelector('button span.font-bold');
+        if(trayBtn) {
+            document.querySelectorAll('button:contains("Add to Tray")').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    trayCount++;
+                    trayBtn.innerText = `View Tray (${trayCount} Items)`;
+                });
+            });
+        }
+    </script>
+</body></html>
